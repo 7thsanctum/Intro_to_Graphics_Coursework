@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4673D430-E1F6-464C-BAB5-B0E36E4CAEF4}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>GFX_Submission</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\Libraries\OpenGl.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\Libraries\OpenGl.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="alphamap.png" />
+    <None Include="art.jpg" />
+    <None Include="barrel_001.jpg" />
+    <None Include="barrel_02.jpg" />
+    <None Include="blend.frag" />
+    <None Include="blur.frag" />
+    <None Include="brick.jpg" />
+    <None Include="bubby.jpg" />
+    <None Include="catdali.jpg" />
+    <None Include="companioncube.jpg" />
+    <None Include="craig.jpg" />
+    <None Include="crate_001.jpg" />
+    <None Include="dissolve.tga" />
+    <None Include="dissolved.frag" />
+    <None Include="earth.jpg" />
+    <None Include="edge.frag" />
+    <None Include="environment_map.frag" />
+    <None Include="environment_map.vert" />
+    <None Include="fire.jpg" />
+    <None Include="grass.jpg" />
+    <None Include="Greyscale.frag" />
+    <None Include="grid.jpg" />
+    <None Include="heightmap.jpg" />
+    <None Include="heightmap.png" />
+    <None Include="heightmap_2.jpg" />
+    <None Include="jupiter.jpg" />
+    <None Include="lighting.frag" />
+    <None Include="lit_blended.frag" />
+    <None Include="lit_blended.vert" />
+    <None Include="lit_texture.frag" />
+    <None Include="mark_01.JPG" />
+    <None Include="mars.jpg" />
+    <None Include="mercury.jpg" />
+    <None Include="metal_01.jpg" />
+    <None Include="Motion_blur.frag" />
+    <None Include="multi_light.frag" />
+    <None Include="neptune.jpg" />
+    <None Include="pluto.jpg" />
+    <None Include="point_light.frag" />
+    <None Include="post_process.frag" />
+    <None Include="post_process.vert" />
+    <None Include="saturn.jpg" />
+    <None Include="scene.json" />
+    <None Include="scene2.json" />
+    <None Include="scene_3.json" />
+    <None Include="scene_4.json" />
+    <None Include="scharredge.frag" />
+    <None Include="scharredge.txt" />
+    <None Include="sharpen.frag" />
+    <None Include="skybox.frag" />
+    <None Include="skybox.vert" />
+    <None Include="sphere_texture.jpg" />
+    <None Include="spot_light.frag" />
+    <None Include="star.tga" />
+    <None Include="starfield.frag" />
+    <None Include="starfield.vert" />
+    <None Include="titan.jpg" />
+    <None Include="triton.jpg" />
+    <None Include="uranus.jpg" />
+    <None Include="venus.jpg" />
+    <None Include="water.jpg" />
+    <None Include="xneg.png" />
+    <None Include="xneg2.png" />
+    <None Include="xpos.png" />
+    <None Include="xpos2.png" />
+    <None Include="yneg.png" />
+    <None Include="yneg2.png" />
+    <None Include="ypos.png" />
+    <None Include="ypos2.png" />
+    <None Include="zneg.png" />
+    <None Include="zneg2.png" />
+    <None Include="zpos.png" />
+    <None Include="zpos2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="camera.cpp" />
+    <ClCompile Include="cubemap.cpp" />
+    <ClCompile Include="effect.cpp" />
+    <ClCompile Include="frame_buffer.cpp" />
+    <ClCompile Include="geometry.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="point_sprite.cpp" />
+    <ClCompile Include="post_process.cpp" />
+    <ClCompile Include="scene.cpp" />
+    <ClCompile Include="skybox.cpp" />
+    <ClCompile Include="texture.cpp" />
+    <ClCompile Include="util.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AVI.h" />
+    <ClInclude Include="camera.h" />
+    <ClInclude Include="cubemap.h" />
+    <ClInclude Include="effect.h" />
+    <ClInclude Include="frame_buffer.h" />
+    <ClInclude Include="geometry.h" />
+    <ClInclude Include="light.h" />
+    <ClInclude Include="material.h" />
+    <ClInclude Include="point_sprite.h" />
+    <ClInclude Include="post_process.h" />
+    <ClInclude Include="render_object.h" />
+    <ClInclude Include="scene.h" />
+    <ClInclude Include="skybox.h" />
+    <ClInclude Include="texture.h" />
+    <ClInclude Include="transform.h" />
+    <ClInclude Include="util.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

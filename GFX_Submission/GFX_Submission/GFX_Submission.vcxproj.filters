@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="scene_3.json" />
+    <None Include="scharredge.frag" />
+    <None Include="sharpen.frag" />
+    <None Include="edge.frag" />
+    <None Include="Greyscale.frag" />
+    <None Include="craig.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bubby.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="triton.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="titan.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="venus.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="pluto.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="neptune.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="uranus.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="saturn.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="jupiter.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="mars.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="earth.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="catdali.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="companioncube.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="barrel_02.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="mercury.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="mark_01.JPG">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="starfield.vert" />
+    <None Include="barrel_001.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="metal_01.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="scene_4.json" />
+    <None Include="fire.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sphere_texture.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="scene2.json" />
+    <None Include="crate_001.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="grid.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Motion_blur.frag" />
+    <None Include="blur.frag" />
+    <None Include="heightmap.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="post_process.frag" />
+    <None Include="post_process.vert" />
+    <None Include="heightmap_2.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="heightmap.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="starfield.frag" />
+    <None Include="environment_map.frag" />
+    <None Include="environment_map.vert" />
+    <None Include="skybox.frag" />
+    <None Include="skybox.vert" />
+    <None Include="lit_texture.frag" />
+    <None Include="star.tga" />
+    <None Include="dissolved.frag" />
+    <None Include="dissolve.tga" />
+    <None Include="lit_blended.vert" />
+    <None Include="scene.json" />
+    <None Include="blend.frag" />
+    <None Include="lit_blended.frag" />
+    <None Include="point_light.frag" />
+    <None Include="lighting.frag" />
+    <None Include="spot_light.frag" />
+    <None Include="multi_light.frag" />
+    <None Include="alphamap.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="water.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="grass.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="brick.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="art.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="xneg.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="xpos.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="yneg.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ypos.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="zneg.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="zpos.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="scharredge.txt" />
+    <None Include="zneg2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="yneg2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="xpos2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ypos2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="xneg2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="zpos2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="point_sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="geometry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="frame_buffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="post_process.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="skybox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cubemap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="effect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="geometry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="post_process.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="frame_buffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="point_sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cubemap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="skybox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="render_object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="effect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AVI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

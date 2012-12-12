@@ -1,0 +1,134 @@
+{
+	"geometry":
+	{
+		"cube":
+		{
+			"shape": "cube"
+		},
+		"plane":
+		{
+			"shape": "plane",
+			"width": 20,
+			"depth": 20
+		},
+		"terrain":
+		{
+			"shape": "terrain",
+			"heightmap": "heightmap"
+		}
+	},
+	"textures":
+	{
+		"grass" : "grass.jpg",
+		"brick" : "brick.jpg",
+		"dissolve" : "dissolve.tga",
+		"grid" : "grid.jpg",
+		"crate_001" : "crate_001.jpg",
+		"heightmap" : "heightmap.jpg"
+	},
+	"materials":
+	{
+		"mat_001":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [0.0, 0.8, 0.0, 1.0],
+			"diffuse": [0.0, 0.8, 0.0, 1.0],
+			"specular": [0.0, 1.0, 0.0, 1.0],
+			"shininess": 2.0,
+			"texture": "grass"
+		},
+		"mat_002":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [0.5, 0.25, 0.15, 1.0],
+			"diffuse": [0.8, 0.5, 0.3, 1.0],
+			"specular": [1.0, 0.75, 0.5, 1.0],
+			"shininess": 1.0,
+			"texture": "brick"
+		},
+		"mat_003":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "grid"
+		},
+		"mat_004":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "crate_001"
+		}
+	},
+	"objects":
+	{
+		"plane":
+		{
+			"geometry": "plane",
+			"material": "mat_001",
+			"transform":
+			{
+				"position": [0.0, 0.0, 0.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [1.0, 1.0, 1.0]
+			}
+		},
+		"terrain_01":
+		{
+			"geometry": "terrain",
+			"material": "mat_003",
+			"transform":
+			{
+				"position": [0.0, 50.0, 0.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [5.0, 5.0, 5.0]
+			}
+		},
+		"terrain_02":
+		{
+			"geometry": "terrain",
+			"material": "mat_003",
+			"transform":
+			{
+				"position": [0.0, -50.0, 0.0],
+				"rotation": [0.0, 90.0, 0.0],
+				"scale": [5.0, 5.0, 5.0]
+			}
+		},
+		"cube":
+		{
+			"geometry": "cube",
+			"material": "mat_002",
+			"transform":
+			{
+				"position": [0.0, 2.0, 0.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [1.0, 4.0, 1.0]
+			}
+		},
+		"crate":
+		{
+			"geometry": "cube",
+			"material": "mat_004",
+			"transform":
+			{
+				"position": [10.0, 2.0, 0.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [1.0, 1.0, 1.0]
+			}
+		}
+	},
+	"lighting":
+	{
+		"ambient" : [0.8, 0.9, 1.0, 1.0],
+		"diffuse" : [0.8, 0.9, 1.0, 1.0],
+		"specular" : [0.8, 0.9, 1.0, 1.0],
+		"lightDir" : [1.0, 0.0, 0.0, 1.0]
+	},
+	"dynamic_lighting":	[""]
+}

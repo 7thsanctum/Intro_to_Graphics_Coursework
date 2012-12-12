@@ -1,0 +1,833 @@
+{
+	"geometry":
+	{
+		"cube":
+		{
+			"shape": "cube"
+		},
+		"sphere":
+		{
+			"shape": "sphere",
+			"slices": 20,
+			"stacks": 20
+		},		
+		"gasket":
+		{
+			"shape": "sierpinski",
+			"divisions": 5
+		},
+		"torus":
+		{
+			"shape": "torus",
+			"radius": 10,
+			"slices": 80,
+			"stacks": 80
+		},
+		"torus2":
+		{
+			"shape": "torus",
+			"radius": 15,
+			"slices": 80,
+			"stacks": 80
+		},
+		"plane":
+		{
+			"shape": "plane",
+			"width": 20,
+			"depth": 20
+		},
+		"cylinder":
+		{
+			"shape": "cylinder",
+			"slices": 20,
+			"stacks": 20
+		},
+		"terrain":
+		{
+			"shape": "terrain",
+			"heightmap": "heightmap"
+		}
+	},
+	"textures":
+	{
+		"grass" :		"grass.jpg",
+		"brick" :		"brick.jpg",
+		"dissolve" :	"dissolve.tga",
+		"grid" :		"grid.jpg",
+		"mark_01" :		"mark_01.jpg",
+		"cat_01" :		"catdali.jpg",
+		"crate_001" :	"crate_001.jpg",
+		"companion" :	"companioncube.jpg",
+		"sphere_001" :	"sphere_texture.jpg",
+		"barrel_001" :	"barrel_001.jpg",
+		"barrel_002" :  "barrel_02.jpg",
+		"metal_01" :	"metal_01.jpg",
+		"mercury" :		"mercury.jpg",
+		"venus" :		"venus.jpg",
+		"earth" :		"earth.jpg",
+		"mars" :		"mars.jpg",
+		"jupiter" :		"jupiter.jpg",
+		"saturn" :		"saturn.jpg",
+		"uranus" :		"uranus.jpg",
+		"neptune" :		"neptune.jpg",		
+		"pluto" :		"pluto.jpg",		
+		"titan" :		"titan.jpg",		
+		"triton" :		"triton.jpg",
+		"heightmap" :	"heightmap.jpg",
+		"art_03" :		"craig.jpg",
+		"art_02" :		"bubby.jpg",
+		"art_01" :		"art.jpg",
+		"fire" :		"fire.jpg",
+		"heightmap_002" : "heightmap_002.png"
+	},
+	"materials":
+	{
+		"mat_001":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [0.0, 0.8, 0.0, 1.0],
+			"diffuse": [0.0, 0.8, 0.0, 1.0],
+			"specular": [0.0, 1.0, 0.0, 1.0],
+			"shininess": 2.0,
+			"texture": "grass"
+		},
+		"mat_002":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [0.5, 0.25, 0.15, 1.0],
+			"diffuse": [0.8, 0.5, 0.3, 1.0],
+			"specular": [1.0, 0.75, 0.5, 1.0],
+			"shininess": 1.0,
+			"texture": "brick"
+		},
+		"mat_003":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "grid"
+		},
+		"mat_004":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "crate_001"
+		},
+		"mat_005":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "sphere_001"
+		},
+		"mat_006":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "sphere_001"
+		},
+		"mat_007":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "fire"
+		},
+		"mat_008":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "metal_01"
+		},
+		"mat_009":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "metal_01"
+		},
+		"mat_010":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "barrel_001"
+		},
+		"mat_011":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "mark_01"
+		},		
+		"mat_012":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "barrel_002"
+		},				
+		"mat_013":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "companion"
+		},						
+		"mat_014":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "cat_01"
+		},
+		"planet_001":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "mercury"
+		},
+		"planet_002":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "venus"
+		},
+		"planet_003":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "earth"
+		},
+		"planet_004":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "mars"
+		},
+		"planet_005":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "jupiter"
+		},
+		"planet_006":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "saturn"
+		},
+		"planet_007":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "uranus"
+		},
+		"planet_008":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "neptune"
+		},
+		"planet_009":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "pluto"
+		},
+		"planet_010":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "titan"
+		},
+		"planet_011":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "triton"
+		},
+		"art_001":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "art_01"
+		},
+		"art_002":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "art_02"
+		},
+		"art_003":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "art_03"
+		}
+	},
+	"objects":
+	{
+		"plane":
+		{
+			"geometry": "plane",
+			"material": "mat_001",
+			"transform":
+			{
+				"position": [0.0, -30.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [1.0, 1.0, 1.0]
+			}
+		},
+		"terrain_01":
+		{
+			"geometry": "terrain",
+			"material": "mat_003",
+			"transform":
+			{
+				"position": [0.0, -30.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [5.0, 5.0, 5.0]
+			}
+		},
+		"crate":
+		{
+			"geometry": "cube",
+			"material": "mat_004",
+			"transform":
+			{
+				"position": [10.0, -12.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [1.0, 1.0, 1.0]
+			}
+		},		
+		"crate2":
+		{
+			"geometry": "cube",
+			"material": "mat_004",
+			"transform":
+			{
+				"position": [11.0, -10.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [1.0, 1.0, 1.0]
+			}
+		}, 				
+		"crate3":
+		{
+			"geometry": "cube",
+			"material": "mat_004",
+			"transform":
+			{
+				"position": [12.0, -12.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [1.0, 1.0, 1.0]
+			}
+		}, 		 				
+		"companion":
+		{
+			"geometry": "cube",
+			"material": "mat_013",
+			"transform":
+			{
+				"position": [4.0, -12.0, -500.0],
+				"rotation": [3.14159265, 0.0, 0.0],
+				"scale": [1.0, 1.0, 1.0]
+			}
+		},  		 				
+		"catcube":
+		{
+			"geometry": "cube",
+			"material": "mat_014",
+			"transform":
+			{
+				"position": [0.0, -12.0, -500.0],
+				"rotation": [3.14 ,1.57, 0.0],
+				"scale": [1.0, 1.0, 0.01]
+			}
+		},   		 				
+		"artcube":
+		{
+			"geometry": "cube",
+			"material": "art_001",
+			"transform":
+			{
+				"position": [-4.0, -12.0, -500.0],
+				"rotation": [3.14 ,1.57, 0.0],
+				"scale": [1.0, 1.0, 0.01]
+			}
+		},   		 				
+		"artcube2":
+		{
+			"geometry": "cube",
+			"material": "art_002",
+			"transform":
+			{
+				"position": [-8.0, -12.0, -500.0],
+				"rotation": [3.14 ,1.57, 0.0],
+				"scale": [1.0, 1.0, 0.01]
+			}
+		},      		 				
+		"artcube3":
+		{
+			"geometry": "cube",
+			"material": "art_003",
+			"transform":
+			{
+				"position": [-12.0, -12.0, -500.0],
+				"rotation": [3.14 ,1.57, 0.0],
+				"scale": [1.0, 1.0, 0.01]
+			}
+		},   
+		"torus":
+		{
+			"geometry": "torus",
+			"material": "mat_007",
+			"transform":
+			{
+				"position": [10.0, 12.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [0.1, 0.1, 0.1]
+			}
+		},						
+		"gasket":
+		{
+			"geometry": "gasket",
+			"material": "mat_008",
+			"transform":
+			{
+				"position": [20.0, 0.0, -480.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [10.0, 10.0, 10.0]
+			}
+		},
+		"torus_02":
+		{
+			"geometry": "torus",
+			"material": "mat_007",
+			"transform":
+			{
+				"position": [20.0, -5.0, -478.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [0.4, 0.4, 0.4]
+			}
+		},
+		"cube_01":
+		{
+			"geometry": "cube",
+			"material": "mat_011",
+			"transform":
+			{
+				"position": [20.0, -5.0, -478.0],
+				"rotation": [3.14159265, 0.0, 0.0],
+				"scale": [2.0, 2.0, 2.0]
+			}
+		},								
+		"gasket_03":
+		{
+			"geometry": "gasket",
+			"material": "mat_007",
+			"transform":
+			{
+				"position": [-20.0, 0.0, -480.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [10.0, 10.0, 10.0]
+			}
+		},
+		"torus_03":
+		{
+			"geometry": "torus",
+			"material": "mat_007",
+			"transform":
+			{
+				"position": [-20.0, -5.0, -478.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [0.4, 0.4, 0.4]
+			}
+		},
+		"cube_03":
+		{
+			"geometry": "cube",
+			"material": "mat_011",
+			"transform":
+			{
+				"position": [-20.0, -5.0, -478.0],
+				"rotation": [3.14159265, 0.0, 0.0],
+				"scale": [2.0, 2.0, 2.0]
+			}
+		},
+		"ball":
+		{
+			"geometry": "sphere",
+			"material": "mat_007",
+			"transform":
+			{
+				"position": [10.0, 10.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [1.0, 1.0, 1.0]
+			}
+		},
+		"ball_02":
+		{
+			"geometry": "sphere",
+			"material": "mat_008",
+			"transform":
+			{
+				"position": [10.0, 10.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [0.5, 0.5, 0.5]
+			}
+		},
+		"ball_03":
+		{
+			"geometry": "sphere",
+			"material": "mat_010",
+			"transform":
+			{
+				"position": [0.0, 12.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [1.0, 1.0, 1.0]
+			}
+		},
+		"ball_04":
+		{
+			"geometry": "sphere",
+			"material": "mat_002",
+			"transform":
+			{
+				"position": [0.0, 2.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [0.7, 0.7, 0.7]
+			}
+		},		
+		"sun":
+		{
+			"geometry": "sphere",
+			"material": "mat_007",
+			"transform":
+			{
+				"position": [0.0, 0.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [2.0, 2.0, 2.0]
+			}
+		},				
+		"mercury":
+		{
+			"geometry": "sphere",
+			"material": "planet_001",
+			"transform":
+			{
+				"position": [0.0, 0.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [0.16, 0.16, 0.16]
+			}
+		},						
+		"venus":
+		{
+			"geometry": "sphere",
+			"material": "planet_002",
+			"transform":
+			{
+				"position": [0.0, 0.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [0.3856, 0.3856, 0.3856]
+			}
+		},								
+		"earth":
+		{
+			"geometry": "sphere",
+			"material": "planet_003",
+			"transform":
+			{
+				"position": [0.0, 0.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [0.4064, 0.4064, 0.4064]
+			}
+		},										
+		"mars":
+		{
+			"geometry": "sphere",
+			"material": "planet_004",
+			"transform":
+			{
+				"position": [0.0, 0.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [0.2144, 0.2144, 0.2144]
+			}
+		},												
+		"jupiter":
+		{
+			"geometry": "sphere",
+			"material": "planet_005",
+			"transform":
+			{
+				"position": [0.0, 0.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [4.544, 4.544, 4.544]
+			}
+		},														
+		"saturn":
+		{
+			"geometry": "sphere",
+			"material": "planet_006",
+			"transform":
+			{
+				"position": [0.0, 0.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [3.84, 3.84, 3.84]
+			}
+		},																
+		"uranus":
+		{
+			"geometry": "sphere",
+			"material": "planet_007",
+			"transform":
+			{
+				"position": [0.0, 0.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [1.632, 1.632, 1.632]
+			}
+		},																		
+		"neptune":
+		{
+			"geometry": "sphere",
+			"material": "planet_008",
+			"transform":
+			{
+				"position": [0.0, 0.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [1.5808, 1.5808, 1.5808]
+			}
+		},																				
+		"pluto":
+		{
+			"geometry": "sphere",
+			"material": "planet_009",
+			"transform":
+			{
+				"position": [0.0, 0.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [0.0728, 0.0728, 0.0728]
+			}
+		},																					
+		"earthmoon":
+		{
+			"geometry": "sphere",
+			"material": "planet_009",
+			"transform":
+			{
+				"position": [0.0, 0.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [0.11, 0.11, 0.11]
+			}
+		},																						
+		"ganymede":
+		{
+			"geometry": "sphere",
+			"material": "planet_009",
+			"transform":
+			{
+				"position": [0.0, 0.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [0.33, 0.33, 0.33]
+			}
+		},																								
+		"titan":
+		{
+			"geometry": "sphere",
+			"material": "planet_010",
+			"transform":
+			{
+				"position": [0.0, 0.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [0.323, 0.323, 0.323]
+			}
+		},																								
+		"triton":
+		{
+			"geometry": "sphere",
+			"material": "planet_011",
+			"transform":
+			{
+				"position": [0.0, 0.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [0.17, 0.17, 0.17]
+			}
+		},																								
+		"titania":
+		{
+			"geometry": "sphere",
+			"material": "planet_011",
+			"transform":
+			{
+				"position": [0.0, 0.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [0.099, 0.099,0.099]
+			}
+		},																					
+		"charon":
+		{
+			"geometry": "sphere",
+			"material": "planet_011",
+			"transform":
+			{
+				"position": [0.0, 0.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [0.076, 0.076, 0.076]
+			}
+		},																						
+		"phobos":
+		{
+			"geometry": "sphere",
+			"material": "planet_009",
+			"transform":
+			{
+				"position": [0.0, 0.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [0.0008128, 0.0008128, 0.0008128]
+			}
+		},																						
+		"saturnring":
+		{
+			"geometry": "torus2",
+			"material": "mat_007",
+			"transform":
+			{
+				"position": [0.0, 0.0, -500.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [0.32, 0.32, 0.32]
+			}
+		},
+		"barrel_01":
+		{
+			"geometry": "cylinder",
+			"material": "mat_010",
+			"transform":
+			{
+				"position": [5.0, -12.0, -495.0],
+				"rotation": [3.14159265 , 0.0, 0.0],
+				"scale": [1.0, 1.2, 1.0]
+			}
+		},
+		"barrel_02":
+		{
+			"geometry": "cylinder",
+			"material": "mat_012",
+			"transform":
+			{
+				"position": [3.0, -12.0, -495.0],
+				"rotation": [3.14159265 , 0.0, 0.0],
+				"scale": [1.0, 1.2, 1.0]
+			}
+		}
+	},
+	"lighting":
+	{
+		"ambient" : [0.8, 0.9, 1.0, 1.0],
+		"diffuse" : [0.8, 0.9, 1.0, 1.0],
+		"specular" : [0.8, 0.9, 1.0, 1.0],
+		"lightDir" : [1.0, 0.0, 0.0, 1.0]
+	},
+	"dynamic_lighting":
+	[
+	{
+		"spot":
+		{
+			"ambient": [0.2, 0.2, 0.2, 1.0],
+			"diffuse": [0.5, 0.5, 0.5, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"lightPos": [0.0, 10.0, -500.0, 1.0],
+			"attenuation": [0.05, 0.001, 0.001, 1.0],
+			"lightDir": [0.0, -1.0, -500.0, 1.0],
+			"power": 1.0,
+			"dist": 1000.0
+		},
+		"point":
+		{
+			"ambient": [0.2, 0.2, 0.2, 1.0],
+			"diffuse": [0.2, 0.2, 0.2, 1.0],
+			"specular": [0.1, 0.1, 0.1, 1.0],
+			"lightPos": [4.0, 1.0, -500.0, 1.0],
+			"attenuation": [0.05, 0.001, 0.001, 1.0],
+			"dist": 0.0
+		},
+		"point":
+		{
+			"ambient": [0.2, 0.2, 0.2, 1.0],
+			"diffuse": [0.2, 0.2, 0.2, 1.0],
+			"specular": [0.1, 0.1, 0.1, 1.0],
+			"lightPos": [100.0, 0.0, -500.0, 1.0],
+			"attenuation": [0.05, 0.001, 0.001, 1.0],
+			"dist": 1000.0
+		}
+	}
+	]
+}
