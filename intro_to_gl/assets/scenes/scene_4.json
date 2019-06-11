@@ -1,0 +1,231 @@
+{
+	"geometry":
+	{
+		"cube":
+		{
+			"shape": "cube"
+		},
+		"sphere":
+		{
+			"shape": "sphere",
+			"slices": 20,
+			"stacks": 20
+		},
+		"torus":
+		{
+			"shape": "torus",
+			"radius": 5,
+			"slices": 80,
+			"stacks": 80
+		},
+		"plane":
+		{
+			"shape": "plane",
+			"width": 20,
+			"depth": 20
+		},
+		"cylinder":
+		{
+			"shape": "cylinder",
+			"slices": 20,
+			"stacks": 20
+		},
+		"terrain":
+		{
+			"shape": "terrain",
+			"heightmap": "heightmap"
+		}
+	},
+	"textures":
+	{
+		"grass" : "grass.jpg",
+		"brick" : "brick.jpg",
+		"dissolve" : "dissolve.tga",
+		"grid" : "grid.jpg",
+		"crate_001" : "crate_001.jpg",
+		"sphere_001" : "sphere_texture.jpg",
+		"heightmap" : "heightmap.jpg",
+		"fire" : "fire.jpg",
+		"heightmap_002" : "heightmap_002.png"
+	},
+	"materials":
+	{
+		"mat_001":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [0.0, 0.8, 0.0, 1.0],
+			"diffuse": [0.0, 0.8, 0.0, 1.0],
+			"specular": [0.0, 1.0, 0.0, 1.0],
+			"shininess": 2.0,
+			"texture": "grass"
+		},
+		"mat_002":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [0.5, 0.25, 0.15, 1.0],
+			"diffuse": [0.8, 0.5, 0.3, 1.0],
+			"specular": [1.0, 0.75, 0.5, 1.0],
+			"shininess": 1.0,
+			"texture": "brick"
+		},
+		"mat_003":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "grid"
+		},
+		"mat_004":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "crate_001"
+		},
+		"mat_005":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "sphere_001"
+		},
+		"mat_006":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "sphere_001"
+		},
+		"mat_007":
+		{
+			"emmisive": [0.0, 0.0, 0.0, 1.0],
+			"ambient": [1.0, 1.0, 1.0, 1.0],
+			"diffuse": [1.0, 1.0, 1.0, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"shininess": 2.0,
+			"texture": "fire"
+		}
+	},
+	"objects":
+	{
+		"plane":
+		{
+			"geometry": "plane",
+			"material": "mat_001",
+			"transform":
+			{
+				"position": [0.0, 0.0, 0.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [1.0, 1.0, 1.0]
+			}
+		},
+		"terrain_01":
+		{
+			"geometry": "terrain",
+			"material": "mat_003",
+			"transform":
+			{
+				"position": [0.0, 0.0, 0.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [5.0, 5.0, 5.0]
+			}
+		},
+		"terrain_02":
+		{
+			"geometry": "terrain",
+			"material": "mat_003",
+			"transform":
+			{
+				"position": [0.0, -20.0, 0.0],
+				"rotation": [90.0, 0.0, 0.0],
+				"scale": [5.0, 5.0, 5.0]
+			}
+		},
+		"terrain_03":
+		{
+			"geometry": "terrain",
+			"material": "mat_003",
+			"transform":
+			{
+				"position": [0.0, -20.0, 0.0],
+				"rotation": [-90.0, 0.0, 0.0],
+				"scale": [5.0, 5.0, 5.0]
+			}
+		},
+		"crate":
+		{
+			"geometry": "cube",
+			"material": "mat_004",
+			"transform":
+			{
+				"position": [10.0, 2.0, 0.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [1.0, 1.0, 1.0]
+			}
+		},
+		"torus":
+		{
+			"geometry": "torus",
+			"material": "mat_007",
+			"transform":
+			{
+				"position": [10.0, 12.0, 0.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [1.0, 1.0, 1.0]
+			}
+		},
+		"ball":
+		{
+			"geometry": "sphere",
+			"material": "mat_007",
+			"transform":
+			{
+				"position": [10.0, 10.0, 0.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [1.0, 1.0, 1.0]
+			}
+		},
+		"barrel":
+		{
+			"geometry": "cylinder",
+			"material": "mat_004",
+			"transform":
+			{
+				"position": [10.0, 5.0, 0.0],
+				"rotation": [0.0, 0.0, 0.0],
+				"scale": [1.0, 1.0, 1.0]
+			}
+		}
+	},
+	"lighting":
+	{
+		"ambient" : [0.8, 0.9, 1.0, 1.0],
+		"diffuse" : [0.8, 0.9, 1.0, 1.0],
+		"specular" : [0.8, 0.9, 1.0, 1.0],
+		"lightDir" : [1.0, 0.0, 0.0, 1.0]
+	},
+	"dynamic_lighting":
+	[
+	{
+		"spot":
+		{
+			"ambient": [0.2, 0.2, 0.2, 1.0],
+			"diffuse": [0.5, 0.5, 0.5, 1.0],
+			"specular": [1.0, 1.0, 1.0, 1.0],
+			"lightPos": [0.0, 2.0, 0.0, 1.0],
+			"attenuation": [0.05, 0.001, 0.001, 1.0],
+			"lightDir": [0.0, -1.0, 0.0, 1.0],
+			"power": 1.0,
+			"dist": 1000.0
+		}
+		}
+	]
+}
