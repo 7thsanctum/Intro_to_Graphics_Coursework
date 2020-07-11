@@ -13,7 +13,7 @@ void getGLError(int line, std::string file)
 {
 	GLenum error = glGetError();
 	if (error)
-		std::cout << "OpenGL error: " << gluErrorString(error)
+		std::cout << "OpenGL error: " // << gluErrorString(error)
 				  << " at line " << line << " in file "
 				  << file.c_str() << std::endl;
 }

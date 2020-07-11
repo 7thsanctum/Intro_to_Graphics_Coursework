@@ -1,6 +1,6 @@
-#pragma comment(lib, "GLFWDLL") //Now using GLFWDLL.lib instead of GLFW.lib (compatibilty)
+#pragma comment(lib, "glfw3ddll") //Now using GLFWDLL.lib instead of GLFW.lib (compatibilty)
 #pragma comment(lib, "OpenGL32")
-#pragma comment(lib, "glew32") //GLEW library (Allows us to use modern openGL functions)
+#pragma comment(lib, "libglew_sharedd") //GLEW library (Allows us to use modern openGL functions)
 #pragma comment(lib, "DevIL")
 #pragma comment(lib, "ILU")
 #pragma comment(lib, "ILUT")
@@ -10,7 +10,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 
 #include <GL\glew.h>
-#include <GL\glfw.h>
+#include <GLFW\glfw3.h>
 #include <IL\ilut.h>
 #include <glm\glm.hpp>
 #include <glm\gtc\matrix_transform.hpp>
@@ -79,6 +79,7 @@ post_process *pass_2[2]; //#############
 point_sprite *points;
 skybox *sb;						  //Our skybox
 texture *tex3 = new texture(" "); //Our holder for the procedurally generated texture
+GLFWwindow *window;
 
 DWORD WINAPI genTexture(LPVOID args)
 {
@@ -91,7 +92,7 @@ DWORD WINAPI genTexture(LPVOID args)
 			for (int i = 0; i < texXY; ++i) // TODO add these generation algorithms to texture.cpp
 				for (int j = 0; j < texXY; ++j)
 				{
-					float f = glm::noise1(glm::noise2(glm::vec2((float)i / 160.0f, (float)j / 160.0f)));
+					float f = (glm::simplex(glm::vec2((float)i / 160.0f, (float)j / 160.0f)));
 					data[(i * 1024) + j] = glm::vec4(f, f, f, 1.0f);
 				}
 			check = false; //Once complete start creating the next texture
@@ -300,20 +301,20 @@ void initialise()
 												//repeatedly updated whilst the program runs but without affecting performance
 }
 
-void GLFWCALL handleKeyInput(int key, int action) //Whenever a key is pressed perform the code inside of here
+void handleKeyInput(int key, int action) //Whenever a key is pressed perform the code inside of here
 {
 	//if(action == GLFW_PRESS) { }
 	// TODO add code to handleKeyInput as soon as a key is pressed
 }
 
-void GLFWCALL handleMouseMove(int mouseX, int mouseY) //Whenever the mouse is moved perform the code inside of here
+void handleMouseMove(GLFWwindow* window, double mouseX, double mouseY) //Whenever the mouse is moved perform the code inside of here
 {
 	float Sensitivity = 10.0f;
 
 	int horizMovement = mouseX - midWindowX; // Find how far from the centre of the screen the mouse has moved
 	int vertMovement = mouseY - midWindowY;
 
-	glfwSetMousePos(midWindowX, midWindowY); // Reset the mouse position to the centre of the window each time
+	glfwSetCursorPos(window, midWindowX, midWindowY); // Reset the mouse position to the centre of the window each time
 
 	double deltaTime = (currentTimeStamp - prevTimeStamp);
 	if (mouseX < midWindowX)
@@ -328,27 +329,27 @@ void GLFWCALL handleMouseMove(int mouseX, int mouseY) //Whenever the mouse is mo
 
 void fpsCameraMove(double deltaTime) // TODO input class
 {
-	if (glfwGetKey(GLFW_KEY_SPACE))
+	if (glfwGetKey(window, GLFW_KEY_SPACE))
 		fpCam->move(glm::vec3(0.0f, moveSpeed, 0.0f) * (float)deltaTime); //Move UP
-	if (glfwGetKey(GLFW_KEY_LCTRL))
+	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL))
 		fpCam->move(glm::vec3(0.0f, -moveSpeed, 0.0f) * (float)deltaTime); //and DOWN
-	if (glfwGetKey('W'))
+	if (glfwGetKey(window, 'W'))
 		fpCam->move(glm::vec3(0.0f, 0.0f, moveSpeed) * (float)deltaTime); //Forward
-	if (glfwGetKey('S'))
+	if (glfwGetKey(window, 'S'))
 		fpCam->move(glm::vec3(0.0f, 0.0f, -moveSpeed) * (float)deltaTime); //Backward
-	if (glfwGetKey('A'))
+	if (glfwGetKey(window, 'A'))
 		fpCam->move(glm::vec3(moveSpeed, 0.0f, 0.0f) * (float)deltaTime); //Left
-	if (glfwGetKey('D'))
+	if (glfwGetKey(window, 'D'))
 		fpCam->move(glm::vec3(-moveSpeed, 0.0f, 0.0f) * (float)deltaTime); //Right
-	if (glfwGetMouseButton(GLFW_MOUSE_BUTTON_LEFT))
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT))
 		fpCam->rotate(glm::pi<float>() / 4 * deltaTime, 0.0f); //Turn Left
-	if (glfwGetMouseButton(GLFW_MOUSE_BUTTON_RIGHT))
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT))
 		fpCam->rotate(-glm::pi<float>() / 4 * deltaTime, 0.0f); //Turn Right
 }
 
 void update(double deltaTime)
 {
-	running = !glfwGetKey(GLFW_KEY_ESC) && glfwGetWindowParam(GLFW_OPENED); //If ESC pressed or program isn't open, stop the program.
+	running = !glfwGetKey(window, GLFW_KEY_ESCAPE) && !glfwWindowShouldClose(window); //If ESC pressed or program isn't open, stop the program.
 
 	chsCam->update(float(deltaTime)); //Updates camera
 	abCam->update(float(deltaTime));
@@ -365,85 +366,85 @@ void update(double deltaTime)
 
 	angle = angle + rotateSpeed * deltaTime; // Constantly update the angle so that objects will rotate
 
-	if (glfwGetKey('=')) // Dissolve all the textures
+	if (glfwGetKey(window, '=')) // Dissolve all the textures
 		dissolveFactor = glm::clamp<float>(dissolveFactor - 1.0f * deltaTime, 0.0f, 1.0f);
-	if (glfwGetKey('-'))
+	if (glfwGetKey(window, '-'))
 		dissolveFactor = glm::clamp<float>(dissolveFactor + 1.0f * deltaTime, 0.0f, 1.0f);
 
-	if (glfwGetKey(GLFW_KEY_KP_SUBTRACT))
+	if (glfwGetKey(window, GLFW_KEY_KP_SUBTRACT))
 		rotateSpeed -= 0.1f; // Alter rotation speeds of all the objects
-	if (glfwGetKey(GLFW_KEY_KP_ADD))
+	if (glfwGetKey(window, GLFW_KEY_KP_ADD))
 		rotateSpeed += 0.1f;
 
-	if (glfwGetKey(GLFW_KEY_KP_0))
+	if (glfwGetKey(window, GLFW_KEY_KP_0))
 		numPadSelect = 0; // Assign a value so that the last
-	if (glfwGetKey(GLFW_KEY_KP_1))
+	if (glfwGetKey(window, GLFW_KEY_KP_1))
 		numPadSelect = 1; // Numpad key is remembered
-	if (glfwGetKey(GLFW_KEY_KP_2))
+	if (glfwGetKey(window, GLFW_KEY_KP_2))
 		numPadSelect = 2; // Used for changing the focus of the cameras
-	if (glfwGetKey(GLFW_KEY_KP_3))
+	if (glfwGetKey(window, GLFW_KEY_KP_3))
 		numPadSelect = 3; // As well as which object is currently being moved
-	if (glfwGetKey(GLFW_KEY_KP_4))
+	if (glfwGetKey(window, GLFW_KEY_KP_4))
 		numPadSelect = 4;
-	if (glfwGetKey(GLFW_KEY_KP_5))
+	if (glfwGetKey(window, GLFW_KEY_KP_5))
 		numPadSelect = 5;
-	if (glfwGetKey(GLFW_KEY_KP_6))
+	if (glfwGetKey(window, GLFW_KEY_KP_6))
 		numPadSelect = 6;
-	if (glfwGetKey(GLFW_KEY_KP_7))
+	if (glfwGetKey(window, GLFW_KEY_KP_7))
 		numPadSelect = 7;
-	if (glfwGetKey(GLFW_KEY_KP_8))
+	if (glfwGetKey(window, GLFW_KEY_KP_8))
 		numPadSelect = 8;
-	if (glfwGetKey(GLFW_KEY_KP_9))
+	if (glfwGetKey(window, GLFW_KEY_KP_9))
 		numPadSelect = 9;
 
-	if (glfwGetKey('1'))
+	if (glfwGetKey(window, '1'))
 		camSelect = 1; // Assign values so that the
-	else if (glfwGetKey('2'))
+	else if (glfwGetKey(window, '2'))
 		camSelect = 2; // last Number pressed is remembered
-	else if (glfwGetKey('3'))
+	else if (glfwGetKey(window, '3'))
 		camSelect = 3; // Used for changing the post processing
-	else if (glfwGetKey('4'))
+	else if (glfwGetKey(window, '4'))
 		camSelect = 4; // Effects
-	else if (glfwGetKey('5'))
+	else if (glfwGetKey(window, '5'))
 		camSelect = 5;
-	else if (glfwGetKey('6'))
+	else if (glfwGetKey(window, '6'))
 		camSelect = 6;
-	else if (glfwGetKey('7'))
+	else if (glfwGetKey(window, '7'))
 		camSelect = 7;
-	else if (glfwGetKey('8'))
+	else if (glfwGetKey(window, '8'))
 		camSelect = 8;
 
 	if (numPadSelect == 1)
 	{
-		if (glfwGetKey(GLFW_KEY_UP))
+		if (glfwGetKey(window, GLFW_KEY_UP))
 			scene->objects["sun"]->transform.move(glm::vec3(0.0f, 0.0f, 0.1f));
-		if (glfwGetKey(GLFW_KEY_DOWN))
+		if (glfwGetKey(window, GLFW_KEY_DOWN))
 			scene->objects["sun"]->transform.move(glm::vec3(0.0f, 0.0f, -0.1f));
-		if (glfwGetKey(GLFW_KEY_LEFT))
+		if (glfwGetKey(window, GLFW_KEY_LEFT))
 			scene->objects["sun"]->transform.move(glm::vec3(0.1f, 0.0f, 0.0f));
-		if (glfwGetKey(GLFW_KEY_RIGHT))
+		if (glfwGetKey(window, GLFW_KEY_RIGHT))
 			scene->objects["sun"]->transform.move(glm::vec3(-0.1f, 0.0f, 0.0f));
 	}
 	else if (numPadSelect == 2)
 	{
-		if (glfwGetKey(GLFW_KEY_UP))
+		if (glfwGetKey(window, GLFW_KEY_UP))
 			scene->objects["crate"]->transform.move(glm::vec3(0.0f, 0.0f, 0.1f));
-		if (glfwGetKey(GLFW_KEY_DOWN))
+		if (glfwGetKey(window, GLFW_KEY_DOWN))
 			scene->objects["crate"]->transform.move(glm::vec3(0.0f, 0.0f, -0.1f));
-		if (glfwGetKey(GLFW_KEY_LEFT))
+		if (glfwGetKey(window, GLFW_KEY_LEFT))
 			scene->objects["crate"]->transform.move(glm::vec3(0.1f, 0.0f, 0.0f));
-		if (glfwGetKey(GLFW_KEY_RIGHT))
+		if (glfwGetKey(window, GLFW_KEY_RIGHT))
 			scene->objects["crate"]->transform.move(glm::vec3(-0.1f, 0.0f, 0.0f));
 	}
 	else if (numPadSelect == 3)
 	{
-		if (glfwGetKey(GLFW_KEY_UP))
+		if (glfwGetKey(window, GLFW_KEY_UP))
 			scene->objects["barrel_01"]->transform.move(glm::vec3(0.0f, 0.0f, 0.1f));
-		if (glfwGetKey(GLFW_KEY_DOWN))
+		if (glfwGetKey(window, GLFW_KEY_DOWN))
 			scene->objects["barrel_01"]->transform.move(glm::vec3(0.0f, 0.0f, -0.1f));
-		if (glfwGetKey(GLFW_KEY_LEFT))
+		if (glfwGetKey(window, GLFW_KEY_LEFT))
 			scene->objects["barrel_01"]->transform.move(glm::vec3(0.1f, 0.0f, 0.0f));
-		if (glfwGetKey(GLFW_KEY_RIGHT))
+		if (glfwGetKey(window, GLFW_KEY_RIGHT))
 			scene->objects["barrel_01"]->transform.move(glm::vec3(-0.1f, 0.0f, 0.0f));
 	}
 
@@ -543,11 +544,11 @@ void update(double deltaTime)
 	if (numPadSelect == 0)
 		orbit = scene->objects["pluto"]->transform.position;
 
-	if (glfwGetKey(GLFW_KEY_KP_DIVIDE))
+	if (glfwGetKey(window, GLFW_KEY_KP_DIVIDE))
 		chsCam->setPositionOffset(chsCam->getPositionOffset() + glm::vec3(0.1f, 0.0f, 0.1f));
-	if (glfwGetKey(GLFW_KEY_KP_MULTIPLY))
+	if (glfwGetKey(window, GLFW_KEY_KP_MULTIPLY))
 		chsCam->setPositionOffset(chsCam->getPositionOffset() - glm::vec3(0.1f, 0.0f, 0.1f));
-	if (glfwGetKey(GLFW_KEY_KP_ENTER))
+	if (glfwGetKey(window, GLFW_KEY_KP_ENTER))
 		rotateSpeed = 0.0f;
 
 	tarCam->setTarget(orbit);
@@ -559,35 +560,35 @@ void update(double deltaTime)
 	//if (glfwGetKey('O')) power = std::max<float>(power - lightAimSpeed, 0.0f);
 	//if (glfwGetKey('P')) power += lightAimSpeed;
 
-	if (glfwGetKey(GLFW_KEY_UP))
+	if (glfwGetKey(window, GLFW_KEY_UP))
 		lightAim.z -= lightAimSpeed;
-	if (glfwGetKey(GLFW_KEY_DOWN))
+	if (glfwGetKey(window, GLFW_KEY_DOWN))
 		lightAim.z += lightAimSpeed;
-	if (glfwGetKey(GLFW_KEY_LEFT))
+	if (glfwGetKey(window, GLFW_KEY_LEFT))
 		lightAim.x -= lightAimSpeed;
-	if (glfwGetKey(GLFW_KEY_RIGHT))
+	if (glfwGetKey(window, GLFW_KEY_RIGHT))
 		lightAim.x += lightAimSpeed;
 
 	fpsCameraMove(deltaTime);
 
-	if (glfwGetKey('I'))
+	if (glfwGetKey(window, 'I'))
 		chsCam->rotate(glm::vec3(glm::pi<float>() / 100.0f, 0.0f, 0.0f));
-	if (glfwGetKey('K'))
+	if (glfwGetKey(window, 'K'))
 		chsCam->rotate(glm::vec3(-glm::pi<float>() / 100.0f, 0.0f, 0.0f));
-	if (glfwGetKey('J'))
+	if (glfwGetKey(window, 'J'))
 		chsCam->rotate(glm::vec3(0.0f, -glm::pi<float>() / 100.0f, 0.0f));
-	if (glfwGetKey('L'))
+	if (glfwGetKey(window, 'L'))
 		chsCam->rotate(glm::vec3(0.0f, glm::pi<float>() / 100.0f, 0.0f));
 
 	//if (glfwGetKey('1')) scene = loadScene("scene2.json");	// TODO load in alternate scenes
 
-	if (glfwGetKey('['))
+	if (glfwGetKey(window, '['))
 		glPolygonMode(GL_FRONT, GL_LINE); // Change to wire frame mode
-	if (glfwGetKey(']'))
+	if (glfwGetKey(window, ']'))
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // Change to normal mode
-	if (glfwGetKey('P'))
+	if (glfwGetKey(window, 'P'))
 		abCam->rotate(glm::pi<float>() / 100.0f, 0.0f); // Rotate the arcball camera
-	if (glfwGetKey(';'))
+	if (glfwGetKey(window, ';'))
 		abCam->rotate(-glm::pi<float>() / 100.0f, 0.0f);
 }
 
@@ -816,7 +817,8 @@ void render()
 		post_blur->render(false);
 	}
 
-	glfwSwapBuffers();
+	glfwSwapBuffers(window);
+	glfwPollEvents();
 
 	frame = (++frame) % 2;
 }
@@ -830,12 +832,12 @@ bool resolutionSelect() //Sets the resolution of the application
 	int val = 0;
 	char SELEC;
 
-	GLFWvidmode return_struct;
+	GLFWmonitor *return_struct = glfwGetPrimaryMonitor();
 
-	glfwGetDesktopMode(&return_struct); // Gets the current desktop resolution
+	const GLFWvidmode *mode = glfwGetVideoMode(return_struct); // Gets the current desktop resolution
 
-	int width = return_struct.Width;
-	int height = return_struct.Height;
+	int width = mode->width;
+	int height = mode->height;
 	resX = width;
 	resY = height;
 	do
@@ -884,13 +886,16 @@ bool resolutionSelect() //Sets the resolution of the application
 int main()
 {
 	SET_DEBUG
-	int mode = GLFW_WINDOW;
+	// TODO: This is deprecated
+	// int mode = GLFW_WINDOW;
 	if (!glfwInit())		//initialise GLFW by calling gltwInit
 		exit(EXIT_FAILURE); //If cant find it then close window
 
 	int check = MessageBox(NULL, "Welcome! \nWould you like to run this application in full screen mode?", "Welcome to Mark's Program!", MB_YESNO | MB_ICONINFORMATION);
 	if (check == IDYES)
-		mode = GLFW_FULLSCREEN; // Set to fullscreen mode
+	{
+		// mode = GLFW_FULLSCREEN; // Set to fullscreen mode
+	}
 	else if (check == IDNO)
 		std::cout << "OK, your loss ...\n";
 	ShowCursor(FALSE);
@@ -899,11 +904,37 @@ int main()
 
 	if (!resolutionSelect()) //Select resolution
 		std::cout << "\nResolution selection failed, you have been set to the default resolution\n";
-	if (!glfwOpenWindow(int(resX), int(resY), 0, 0, 0, 0, 0, 0, mode)) //Setting window size
+
+	window = glfwCreateWindow(int(resX), int(resY), "GF Submission", NULL, NULL);
+
+	// Set window hints for GLFW
+
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+
+	// glfwWindowHint(GLFW_ICONIFIED, GL_FALSE);
+	glfwWindowHint(GLFW_SAMPLES, 4);
+
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+	// glfwWindowHint(GLFW_RED_BITS, video_mode->redBits);
+	// glfwWindowHint(GLFW_GREEN_BITS, video_mode->greenBits);
+	// glfwWindowHint(GLFW_BLUE_BITS, video_mode->blueBits);
+	// glfwWindowHint(GLFW_REFRESH_RATE, video_mode->refreshRate);
+
+	if (!window) //Setting window size
 	{
 		glfwTerminate();	//If can open window this size Terminate GLFW
 		exit(EXIT_FAILURE); //And exit
 	}
+
+	// Make the window's context current
+	glfwMakeContextCurrent(window);
+
+	// Set swap interval - make the window refresh with the monitor
+	glfwSwapInterval(1);
 
 	GLenum error = glewInit();
 	if (error != GLEW_OK) //Check for errors in glewInit
@@ -916,24 +947,21 @@ int main()
 	iluInit();
 	ilutRenderer(ILUT_OPENGL);
 
-	const GLubyte *renderer = glGetString(GL_RENDERER);
-	const GLubyte *vendor = glGetString(GL_VENDOR);
-	const GLubyte *version = glGetString(GL_VERSION);
-	const GLubyte *glslVersion = glGetString(GL_SHADING_LANGUAGE_VERSION);
+	std::cout << "GL Vendor: " << glGetString(GL_VENDOR) << std::endl;
+	std::cout << "GL Renderer: " << glGetString(GL_RENDERER) << std::endl;
+	std::cout << "GL Version: " << glGetString(GL_VERSION) << std::endl;
+	std::cout << "GLSL Version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
+
 	GLint major, minor;
 	glGetIntegerv(GL_MAJOR_VERSION, &major);
 	glGetIntegerv(GL_MINOR_VERSION, &minor);
-	printf("GL Vendor : %s\n", vendor);
-	printf("GL Renderer : %s\n", renderer);
-	printf("GL Version (string) : %s\n", version);
 	printf("GL Version (integer) : %d.%d\n", major, minor);
-	printf("GLSL Version : %s\n", glslVersion);
 	printf("Resolution : %g * %g\n", resX, resY);
 
 	initialise(); //Intialise everything so far then enter main render loop
 
-	glfwSetMousePos(midWindowX, midWindowY);
-	glfwSetMousePosCallback(handleMouseMove);
+	glfwSetCursorPos(window, midWindowX, midWindowY);
+	glfwSetCursorPosCallback(window, handleMouseMove);
 	//glfwSetKeyCallback(handleKeyInput);
 
 	prevTimeStamp = glfwGetTime();

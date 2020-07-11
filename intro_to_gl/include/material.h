@@ -1,7 +1,7 @@
 #pragma once
 
 #include <GL\glew.h>
-#include <GL\glfw.h>
+#include <GLFW\glfw3.h>
 #include <glm\glm.hpp>
 #include "effect.h"
 #include "texture.h"
@@ -20,7 +20,7 @@ struct material
 {
 	material_data data;
 	GLuint buffer;
-	texture* texture;
+	texture *texture;
 
 	material() : texture(0)
 	{
@@ -28,7 +28,8 @@ struct material
 
 	~material()
 	{
-		if (buffer) glDeleteBuffers(1, &buffer);
+		if (buffer)
+			glDeleteBuffers(1, &buffer);
 	}
 
 	void create()
@@ -39,7 +40,7 @@ struct material
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	}
 
-	void bind(const effect* eff)
+	void bind(const effect *eff)
 	{
 		glBindBufferRange(GL_UNIFORM_BUFFER, eff->getUniformBlockIndex("Material"), buffer, 0, sizeof(material_data));
 		if (texture)
