@@ -5,7 +5,7 @@
 #include <IL\ilut.h>
 
 // Takes a branch of a property tree and reads in a vec3
-glm::vec3 readVec3(const boost::property_tree::ptree& pt)
+glm::vec3 readVec3(const boost::property_tree::ptree &pt)
 {
 	glm::vec3 v;
 	boost::property_tree::ptree::const_iterator iter = pt.begin();
@@ -16,7 +16,7 @@ glm::vec3 readVec3(const boost::property_tree::ptree& pt)
 }
 
 // Takes a branch of a property tree and reads in a vec4
-glm::vec4 readVec4(const boost::property_tree::ptree& pt)
+glm::vec4 readVec4(const boost::property_tree::ptree &pt)
 {
 	glm::vec4 v;
 	boost::property_tree::ptree::const_iterator iter = pt.begin();
@@ -28,7 +28,7 @@ glm::vec4 readVec4(const boost::property_tree::ptree& pt)
 }
 
 // Reads in geometry from the property tree
-void readGeometry(scene_data* scene, const boost::property_tree::ptree& pt)
+void readGeometry(scene_data *scene, const boost::property_tree::ptree &pt)
 {
 	// Iterate through all the sub branches of the tree
 	boost::property_tree::ptree::const_iterator iter = pt.begin();
@@ -39,7 +39,7 @@ void readGeometry(scene_data* scene, const boost::property_tree::ptree& pt)
 
 		// Read in the shape
 		std::string shape = iter->second.get_child("shape").get_value<std::string>();
-		geometry* geom;
+		geometry *geom;
 
 		// Depending on the shape of the geometry, use the relevant geometry creation
 		// method
@@ -99,7 +99,7 @@ void readGeometry(scene_data* scene, const boost::property_tree::ptree& pt)
 }
 
 // Reads in textures from the scene file
-void readTextures(scene_data* scene, const boost::property_tree::ptree& pt)
+void readTextures(scene_data *scene, const boost::property_tree::ptree &pt)
 {
 	// Iterate through all the sub branches and read in the textures accordingly
 	boost::property_tree::ptree::const_iterator iter = pt.begin();
@@ -112,22 +112,22 @@ void readTextures(scene_data* scene, const boost::property_tree::ptree& pt)
 		std::string filename = iter->second.get_value<std::string>();
 
 		// Create the texture from the filename
-		texture* tex = new texture(filename);
+		texture *tex = new texture("assets/images/" + filename);
 		if (!tex->create())
-			printf("Error loading texture: %s\n", filename);
+			printf("Error loading texture: %s\n", filename.c_str());
 		else
 			scene->textures[name] = tex;
 	}
 }
 
 // Read in material data from the scene file
-void readMaterials(scene_data* scene, const boost::property_tree::ptree& pt)
+void readMaterials(scene_data *scene, const boost::property_tree::ptree &pt)
 {
 	boost::property_tree::ptree::const_iterator iter = pt.begin();
 	// Iterate through all the sub branches, and read in the relevant data
 	for (; iter != pt.end(); ++iter)
 	{
-		material* mat = new material();
+		material *mat = new material();
 		std::string name = iter->first;
 		mat->data.emissive = readVec4(iter->second.get_child("emmisive"));
 		mat->data.ambient = readVec4(iter->second.get_child("ambient"));
@@ -136,7 +136,7 @@ void readMaterials(scene_data* scene, const boost::property_tree::ptree& pt)
 		mat->data.shininess = iter->second.get_child("shininess").get_value<float>();
 		std::string texture = iter->second.get_child("texture").get_value<std::string>();
 
-		// Try and find texture, and set material accordingly.  If the not found, 
+		// Try and find texture, and set material accordingly.  If the not found,
 		// set to nullptr
 		if (scene->textures.find(texture) != scene->textures.end())
 			mat->texture = scene->textures[texture];
@@ -150,7 +150,7 @@ void readMaterials(scene_data* scene, const boost::property_tree::ptree& pt)
 }
 
 // Reads in a transform from the scene file
-void readTransform(render_object* object, const boost::property_tree::ptree& pt)
+void readTransform(render_object *object, const boost::property_tree::ptree &pt)
 {
 	object->transform.position = readVec3(pt.get_child("position"));
 	glm::vec3 rot = readVec3(pt.get_child("rotation"));
@@ -161,7 +161,7 @@ void readTransform(render_object* object, const boost::property_tree::ptree& pt)
 }
 
 // Reads in all the render objects from the scene file
-void readObjects(scene_data* scene, const boost::property_tree::ptree& pt)
+void readObjects(scene_data *scene, const boost::property_tree::ptree &pt)
 {
 	boost::property_tree::ptree::const_iterator iter = pt.begin();
 
@@ -170,7 +170,7 @@ void readObjects(scene_data* scene, const boost::property_tree::ptree& pt)
 	for (; iter != pt.end(); ++iter)
 	{
 		// Create a render object
-		render_object* object = new render_object();
+		render_object *object = new render_object();
 
 		// Read in the name for the object
 		std::string name = iter->first;
@@ -192,7 +192,7 @@ void readObjects(scene_data* scene, const boost::property_tree::ptree& pt)
 }
 
 // Reads in lighting data for a scene
-void readLighting(scene_data* scene, const boost::property_tree::ptree& pt)
+void readLighting(scene_data *scene, const boost::property_tree::ptree &pt)
 {
 	scene->light.data.ambient = readVec4(pt.get_child("ambient"));
 	scene->light.data.diffuse = readVec4(pt.get_child("diffuse"));
@@ -202,7 +202,7 @@ void readLighting(scene_data* scene, const boost::property_tree::ptree& pt)
 }
 
 // Reads in data for a point light
-void readPointLight(scene_data* scene, const boost::property_tree::ptree& pt)
+void readPointLight(scene_data *scene, const boost::property_tree::ptree &pt)
 {
 	point_light_data point;
 	point.ambient = readVec4(pt.get_child("ambient"));
@@ -215,7 +215,7 @@ void readPointLight(scene_data* scene, const boost::property_tree::ptree& pt)
 }
 
 // Reads in data for a spot light
-void readSpotLight(scene_data* scene, const boost::property_tree::ptree& pt)
+void readSpotLight(scene_data *scene, const boost::property_tree::ptree &pt)
 {
 	spot_light_data spot;
 	spot.ambient = readVec4(pt.get_child("ambient"));
@@ -230,7 +230,7 @@ void readSpotLight(scene_data* scene, const boost::property_tree::ptree& pt)
 }
 
 // Read in all the dynamic lights for the scene
-void readDynamicLights(scene_data* scene, const boost::property_tree::ptree& pt)
+void readDynamicLights(scene_data *scene, const boost::property_tree::ptree &pt)
 {
 	boost::property_tree::ptree::const_iterator iter = pt.front().second.begin();
 	for (; iter != pt.front().second.end(); ++iter)
@@ -249,14 +249,14 @@ void readDynamicLights(scene_data* scene, const boost::property_tree::ptree& pt)
 }
 
 // Read in the scene data, and load the necessary resources
-scene_data* loadScene(const std::string& fileName)
+scene_data *loadScene(const std::string &fileName)
 {
-	scene_data* scene = new scene_data;
+	scene_data *scene = new scene_data;
 	boost::property_tree::ptree pt;
 	boost::property_tree::read_json(fileName, pt);
 
 	readTextures(scene, pt.get_child("textures"));
-	readGeometry(scene, pt.get_child("geometry"));	
+	readGeometry(scene, pt.get_child("geometry"));
 	readMaterials(scene, pt.get_child("materials"));
 	readObjects(scene, pt.get_child("objects"));
 	readLighting(scene, pt.get_child("lighting"));
