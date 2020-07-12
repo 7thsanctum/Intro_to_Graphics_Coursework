@@ -1,4 +1,13 @@
+#include "stdafx.h"
 #include "cubemap.h"
+#include "stb_image.h"
+
+static auto stbi_load_smart = [](auto... args) {
+  auto closer_lambda = [](stbi_uc *rgbd) { stbi_image_free(rgbd); };
+  std::unique_ptr<stbi_uc, decltype(closer_lambda)> rgb(stbi_load(args...),
+                                                        closer_lambda);
+  return rgb;
+};
 
 
 cubemap::cubemap(const std::vector<std::string>& filenames)
@@ -15,31 +24,41 @@ cubemap::~cubemap()
 bool cubemap::create()
 {
 	// First use DevIL to load in the image data
-	ILuint texid[6];
-
+	// ILuint texid[6];
+	unsigned char * data[6];
+	int width[6];
+	int height[6];
+	int bpp[6];
 	// Create a DevIL image
-	ilGenImages(6, texid);
+	// ilGenImages(6, texid);
 
 	// Try and load each image for the cubemap
-	for (int i = 0; i <6; ++i)
+	for (int i = 0; i < 6; ++i)
 	{
 		// Bind Image
-		ilBindImage(texid[i]);
+		// ilBindImage(texid[i]);
 
 		// Load in the image into memory
-		ILboolean success = ilLoadImage(_filenames[i].c_str());
-		if(!success)
-			return success;
+		// ILboolean success = ilLoadImage(_filenames[i].c_str());
+
+		// int width, height, bpp;
+		//auto load = stbi_load_smart(_filenames[i].c_str(), &width[i], &height[i], &bpp[i], 4);
+		//data[i] = load.get();
+		//if (data[i] == NULL || width == 0 || height == 0) {
+		//	throw std::runtime_error("Error reading texture");
+		//}
+		// if(!success)
+		// 	return success;
 
 		// Conver the image into RGBA
-		success = ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
-		if (!success)
-		{
-			// Delete all create images
-			for (int j = 0; j <= i; ++j)
-				ilDeleteImages(1, &texid[j]);
-			return success;
-		}
+		// success = ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
+		// if (!success)
+		// {
+		// 	// Delete all create images
+		// 	// for (int j = 0; j <= i; ++j)
+		// 		// ilDeleteImages(1, &texid[j]);
+		// 	return success;
+		// }
 	}
 
 	glActiveTexture(GL_TEXTURE0);
@@ -75,24 +94,30 @@ bool cubemap::create()
 		GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
 	};
 
-	for(int i = 0; i < 6; ++i)
-	{
-		ilBindImage(texid[i]);
+	 for(int i = 0; i < 6; ++i)
+	 {
+		 auto load = stbi_load_smart(_filenames[i].c_str(), &width[i], &height[i], &bpp[i], 4);
+		 //data[i] = load.get();
+		 //if (data[i] == NULL || width == 0 || height == 0) {
+		//	 throw std::runtime_error("Error reading texture");
+		 //}
+
+		// ilBindImage(texid[i]);
 		glTexImage2D(targets[i],
 					 0,
-					 ilGetInteger(IL_IMAGE_BPP),
-					 ilGetInteger(IL_IMAGE_WIDTH),
-					 ilGetInteger(IL_IMAGE_HEIGHT),
+					 bpp[i],
+					 width[i],
+					 height[i],
 					 0,
-					 ilGetInteger(IL_IMAGE_FORMAT),
+					 GL_RGBA,
 					 GL_UNSIGNED_BYTE,
-					 ilGetData());
+			load.get());
 		CHECK_GL_ERROR
 	}
 	glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
 
 	// Delete the DevIL images
-	ilDeleteImages(6, texid);
+	// ilDeleteImages(6, texid);
 
 	return true;
 }

@@ -91,10 +91,12 @@ add_executable(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include"
 "${CMAKE_CURRENT_SOURCE_DIR}/set08116_framework/lib/glfw/include"
 "${CMAKE_CURRENT_SOURCE_DIR}/set08116_framework/lib/glew/include"
+"${CMAKE_CURRENT_SOURCE_DIR}/set08116_framework/lib/"
 # "${CMAKE_CURRENT_SOURCE_DIR}/set08116_framework/lib/glm/"
 "E:/Projects/Intro_to_Graphics_Coursework/Libraries/glm-0.9.3.4"
-"E:/Projects/Intro_to_Graphics_Coursework/Libraries/DevIL-SDK-x86-1.7.8/include"
-"E:/Projects/Intro_to_Graphics_Coursework/Libraries/boost_1_51")
+# "E:/Projects/Intro_to_Graphics_Coursework/Libraries/DevIL-SDK-x86-1.7.8/include"
+"E:/Projects/Intro_to_Graphics_Coursework/Libraries/boost_1_51"
+)
 
 #dependencies
 target_link_libraries(${PROJECT_NAME} PRIVATE enu_graphics_framework

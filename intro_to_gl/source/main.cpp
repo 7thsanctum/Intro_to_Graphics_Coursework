@@ -1,17 +1,18 @@
 #pragma comment(lib, "glfw3ddll") //Now using GLFWDLL.lib instead of GLFW.lib (compatibilty)
 #pragma comment(lib, "OpenGL32")
 #pragma comment(lib, "libglew_sharedd") //GLEW library (Allows us to use modern openGL functions)
-#pragma comment(lib, "DevIL")
-#pragma comment(lib, "ILU")
-#pragma comment(lib, "ILUT")
+// #pragma comment(lib, "DevIL")
+// #pragma comment(lib, "ILU")
+// #pragma comment(lib, "ILUT")
 
 #define GLFW_DLL
 #define _SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS
 #define GLM_ENABLE_EXPERIMENTAL
 
+#include <windows.h>
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
-#include <IL\ilut.h>
+// #include <IL\ilut.h>
 #include <glm\glm.hpp>
 #include <glm\gtc\matrix_transform.hpp>
 #include <glm\gtc\type_ptr.hpp>
@@ -277,14 +278,14 @@ void initialise()
 	pass_2[1] = new post_process(post_eff);
 	pass_2[1]->create(resX, resY); //####################End Shader Loading##############################################
 
-	texture *tex = new texture("assets/images/tar.tga");   //#####################################
+	texture *tex = new texture("assets/images/star.tga");   //#####################################
 	tex->create();										   //#	  Load the texture for the star	  #
 	points = new point_sprite(createStarField(2500), tex); //#	and create points for point sprite#
 	points->create();									   //#####################################
 
 	std::vector<std::string> cubemap_texs;			   //#####################################
 	cubemap_texs.push_back("assets/images/xneg2.png"); // Load in each image for the cube map
-	cubemap_texs.push_back("assets/images/pos2.png");
+	cubemap_texs.push_back("assets/images/xpos2.png");
 	cubemap_texs.push_back("assets/images/ypos2.png");
 	cubemap_texs.push_back("assets/images/yneg2.png");
 	cubemap_texs.push_back("assets/images/zpos2.png");
@@ -943,9 +944,9 @@ int main()
 		exit(EXIT_FAILURE);
 	}
 
-	ilInit();
-	iluInit();
-	ilutRenderer(ILUT_OPENGL);
+	// ilInit();
+	// iluInit();
+	// ilutRenderer(ILUT_OPENGL);
 
 	std::cout << "GL Vendor: " << glGetString(GL_VENDOR) << std::endl;
 	std::cout << "GL Renderer: " << glGetString(GL_RENDERER) << std::endl;

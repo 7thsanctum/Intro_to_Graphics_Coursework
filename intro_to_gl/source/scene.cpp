@@ -2,7 +2,7 @@
 #include "util.h"
 
 #include <boost\property_tree\json_parser.hpp>
-#include <IL\ilut.h>
+// #include <IL\ilut.h>
 
 // Takes a branch of a property tree and reads in a vec3
 glm::vec3 readVec3(const boost::property_tree::ptree &pt)

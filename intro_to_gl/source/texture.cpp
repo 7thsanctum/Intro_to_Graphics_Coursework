@@ -1,6 +1,14 @@
 #include "texture.h"
 #include "util.h"
-#include <IL\il.h>
+#include "stb_image.h"
+// #include <IL\il.h>
+
+  static auto stbi_load_smart = [](auto... args) {
+  auto closer_lambda = [](stbi_uc *rgbd) { stbi_image_free(rgbd); };
+  std::unique_ptr<stbi_uc, decltype(closer_lambda)> rgb(stbi_load(args...),
+                                                        closer_lambda);
+  return rgb;
+};
 
 texture::texture(const std::string& filename)
 	: _filename(filename), _image(0)
@@ -15,18 +23,20 @@ texture::~texture()
 
 bool texture::create()
 {
-	ILuint texid;
-	ilGenImages(1, &texid);
-	ilBindImage(texid);
-	ILboolean success = ilLoadImage(_filename.c_str());
-	if (success)
+	// ILuint texid;
+	// ilGenImages(1, &texid);
+	// ilBindImage(texid);
+	// ILboolean success = ilLoadImage(_filename.c_str());
+	int width, height, bpp;
+  	auto rgb = stbi_load_smart(_filename.c_str(), &width, &height, &bpp, 4);
+	if (rgb != NULL && width != 0 && height != 0)
 	{
-		success = ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
-		if (!success)
-		{
-			ilDeleteImages(1, &texid);
-			return success;
-		}
+		// success = ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
+		// if (!success)
+		// {
+		// 	// ilDeleteImages(1, &texid);
+		// 	return success;
+		// }
 		glGenTextures(1, &_image);
 		glBindTexture(GL_TEXTURE_2D, _image);
 
@@ -51,19 +61,24 @@ bool texture::create()
 		CHECK_GL_ERROR
 			glTexImage2D(GL_TEXTURE_2D,
 						 0,
-						 ilGetInteger(IL_IMAGE_BPP),
-						 ilGetInteger(IL_IMAGE_WIDTH),
-						 ilGetInteger(IL_IMAGE_HEIGHT),
+						 bpp,
+						 width,
+						 height,
 						 0,
-						 ilGetInteger(IL_IMAGE_FORMAT),
+						 GL_RGBA,
 						 GL_UNSIGNED_BYTE,
-						 ilGetData());
+						 rgb.get());
 			CHECK_GL_ERROR
 			glGenerateMipmap(GL_TEXTURE_2D);
 			CHECK_GL_ERROR
-			ilDeleteImages(1, &texid);
+			// ilDeleteImages(1, &texid);
 	}
-	return success;
+	else {
+		return false;
+		//std::cout << "Error reading texture\n";
+		//throw std::runtime_error("Error reading texture");
+	}
+	return true;
 }
 
 bool texture::create(int width, int height, glm::vec4* data)
