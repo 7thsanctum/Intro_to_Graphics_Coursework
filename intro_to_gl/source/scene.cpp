@@ -1,5 +1,6 @@
 #include "scene.h"
 #include "util.h"
+#include "json.h"
 
 #include <boost\property_tree\json_parser.hpp>
 // #include <IL\ilut.h>
@@ -248,9 +249,49 @@ void readDynamicLights(scene_data *scene, const boost::property_tree::ptree &pt)
 	scene->dynamic.create();
 }
 
+#include <fstream>
+using namespace std;
+
 // Read in the scene data, and load the necessary resources
 scene_data *loadScene(const std::string &fileName)
 {
+	std::cout << "Hello : " << fileName << std::endl;
+
+	std::ifstream t(fileName);
+	std::string str;
+
+	t.seekg(0, std::ios::end);   
+	str.reserve(t.tellg());
+	t.seekg(0, std::ios::beg);
+
+	str.assign((std::istreambuf_iterator<char>(t)),
+				std::istreambuf_iterator<char>());
+
+	std::cout << str << std::endl;
+
+	struct json_value_s* root = json_parse(str.c_str(), strlen(str.c_str()));
+	assert(root->type == json_type_object);
+
+	// ifstream inFile;
+    
+    // inFile.open(fileName);
+	//  if (!inFile) {
+    //     cout << "Unable to open file";
+    //     exit(1); // terminate with error
+    // }
+
+	// inFile.seekg(0, std::ios::end);    // go to the end
+	// int length = inFile.tellg();           // report location (this is the length)
+	// inFile.seekg(0, std::ios::beg);    // go back to the beginning
+	// char* buffer = new char[length+1];    // allocate memory for a buffer of appropriate dimension
+	// inFile.read(buffer, length);       // read the whole file into the buffer
+	// inFile.close();                    // close file handle
+	// buffer[length] = '\0';
+	// std::cout << buffer << std::endl;
+
+	// struct json_value_s* root = json_parse(buffer, strlen(json));
+	// assert(root->type == json_type_object);
+
 	scene_data *scene = new scene_data;
 	boost::property_tree::ptree pt;
 	boost::property_tree::read_json(fileName, pt);

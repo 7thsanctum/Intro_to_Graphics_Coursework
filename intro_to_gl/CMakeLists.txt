@@ -94,7 +94,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/
 "${CMAKE_CURRENT_SOURCE_DIR}/set08116_framework/lib/"
 # "${CMAKE_CURRENT_SOURCE_DIR}/set08116_framework/lib/glm/"
 "E:/Projects/Intro_to_Graphics_Coursework/Libraries/glm-0.9.3.4"
-# "E:/Projects/Intro_to_Graphics_Coursework/Libraries/DevIL-SDK-x86-1.7.8/include"
 "E:/Projects/Intro_to_Graphics_Coursework/Libraries/boost_1_51"
 )
 
@@ -109,55 +108,4 @@ PUBLIC E:/Projects/Intro_to_Graphics_Coursework/Libraries/DevIL-SDK-x86-1.7.8/li
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD  
 COMMAND ${CMAKE_COMMAND} -E copy_directory  "${PROJECT_SOURCE_DIR}/assets" "$<TARGET_FILE_DIR:${PROJECT_NAME}>/assets")
 
-#Grab practical folders
-# file(GLOB children RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" practicals/*)
-# SET(dirlist "")
-# FOREACH(child ${children})
-#   IF(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${child})
-#     get_filename_component(childName ${child} NAME BASE_DIR practicals)
-#     LIST(APPEND dirlist ${childName})
-#     file(GLOB_RECURSE SOURCE_FILES ${child}/*.cpp ${child}/*.h ${child}/*.frag ${child}/*.vert ${child}/*.geom ${child}/*.comp)
-#     file(GLOB_RECURSE NOT_RESOURCE_FILES ${child}/*.cpp ${child}/*.h)
-#     file(GLOB_RECURSE RESOURCE_FILES  ${child}/*.*)
-#     LIST(REMOVE_ITEM RESOURCE_FILES ${NOT_RESOURCE_FILES}) 
-    	
-    #add_custom_command(TARGET ${childName} POST_BUILD
-		#	COMMAND ${CMAKE_COMMAND} -E copy_directory
-		#	"${PROJECT_SOURCE_DIR}/set08116_framework/res"
-		#	$<TARGET_FILE_DIR:${childName}>
-	  #)
-	
-    # if(RESOURCE_FILES)
-    # message("Resources: ${RESOURCE_FILES}")
-    #   #copy Project Specific Resources
-    #   FOREACH(res ${RESOURCE_FILES})
-    #     get_filename_component(fn ${res} NAME)
-    #     add_custom_command(TARGET ${childName} POST_BUILD  
-    #     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${res} $<TARGET_FILE_DIR:${childName}>/${childName}/${fn})
-    #   ENDFOREACH()
-    # endif(RESOURCE_FILES)
-    
-    #set outDir as debugging directory for each project
-    # if(${MSVC})
-    # file( WRITE "${CMAKE_CURRENT_BINARY_DIR}/${childName}.vcxproj.user" 
-    #     "<?xml version=\"1.0\" encoding=\"utf-8\"?>
-    #     <Project ToolsVersion=\"4.0\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">
-    #     <PropertyGroup Condition=\"'$(Configuration)|$(Platform)'=='Debug|x64'\">
-    #         <LocalDebuggerWorkingDirectory>$(TargetDir)</LocalDebuggerWorkingDirectory>
-    #         <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    #     </PropertyGroup>
-    #     <PropertyGroup Condition=\"'$(Configuration)|$(Platform)'=='Release|x64'\">
-    #         <LocalDebuggerWorkingDirectory>$(TargetDir)</LocalDebuggerWorkingDirectory>
-    #         <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    #     </PropertyGroup>
-    #     </Project>")
-    # endif()
-#   ENDIF()
-# ENDFOREACH()
-
 set_target_properties(enu_graphics_framework PROPERTIES FOLDER "DEPS")
-
-
-install (FILES E:/Projects/Intro_to_Graphics_Coursework/Libraries/DevIL-SDK-x86-1.7.8/lib/DevIL.dll DESTINATION bin)
-install (FILES E:/Projects/Intro_to_Graphics_Coursework/Libraries/DevIL-SDK-x86-1.7.8/lib/ILUT.dll DESTINATION bin)
-install (FILES E:/Projects/Intro_to_Graphics_Coursework/Libraries/DevIL-SDK-x86-1.7.8/lib/ILU.dll DESTINATION bin)

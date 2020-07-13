@@ -1,4 +1,9 @@
+
+#if _WIN64
+#pragma comment(lib, "glfw3dll") //Now using GLFWDLL.lib instead of GLFW.lib (compatibilty)
+#else
 #pragma comment(lib, "glfw3ddll") //Now using GLFWDLL.lib instead of GLFW.lib (compatibilty)
+#endif
 #pragma comment(lib, "OpenGL32")
 #pragma comment(lib, "libglew_sharedd") //GLEW library (Allows us to use modern openGL functions)
 // #pragma comment(lib, "DevIL")
