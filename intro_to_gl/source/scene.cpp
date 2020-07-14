@@ -3,7 +3,6 @@
 #include "json.h"
 
 #include <boost\property_tree\json_parser.hpp>
-// #include <IL\ilut.h>
 
 // Takes a branch of a property tree and reads in a vec3
 glm::vec3 readVec3(const boost::property_tree::ptree &pt)
@@ -29,8 +28,39 @@ glm::vec4 readVec4(const boost::property_tree::ptree &pt)
 }
 
 // Reads in geometry from the property tree
-void readGeometry(scene_data *scene, const boost::property_tree::ptree &pt)
+void readGeometry(scene_data *scene, const boost::property_tree::ptree &pt, json_object_s* node)
 {
+	json_object_element_s* a_node = node->start;
+	do{	
+		struct json_string_s* a_name = a_node->name;
+		// std::cout << "a_name->string : " << a_name->string << std::endl;
+		// switch(a_name->string){
+		// 	case "cube":
+		// 		std::cout << a_name->string << std::endl;
+		// 	case "tetrahedron":
+		// 		std::cout << a_name->string << std::endl;
+		// 	case "pyramid":
+		// 		std::cout << a_name->string << std::endl;
+		// 	case "disk":
+		// 		std::cout << a_name->string << std::endl;
+		// 	case "cylinder":
+		// 		std::cout << a_name->string << std::endl;
+		// 	case "sphere":
+		// 		std::cout << a_name->string << std::endl;
+		// 	case "torus":
+		// 		std::cout << a_name->string << std::endl;
+		// 	case "plane":
+		// 		std::cout << a_name->string << std::endl;
+		// 	case "sierpinski":
+		// 		std::cout << a_name->string << std::endl;
+		// 	case "terrain":
+		// 		std::cout << a_name->string << std::endl;
+		// 	default:
+		// 		std::cout << a_name->string << std::endl;
+		// }
+		a_node = a_node->next;
+	}while(a_node != nullptr);
+
 	// Iterate through all the sub branches of the tree
 	boost::property_tree::ptree::const_iterator iter = pt.begin();
 	for (; iter != pt.end(); ++iter)
@@ -252,6 +282,21 @@ void readDynamicLights(scene_data *scene, const boost::property_tree::ptree &pt)
 #include <fstream>
 using namespace std;
 
+json_object_s* getChildByName(json_object_element_s* root, std::string name)
+{
+	struct json_object_element_s* a = root;
+
+	do{
+		struct json_string_s* a_name = a->name;
+		if(a_name->string == name){
+			std::cout << "a_name->string : " << a_name->string << std::endl;
+			return (struct json_object_s*)a->value->payload;
+		}
+		a = a->next;
+	}while(a != nullptr);
+	return nullptr;
+}
+
 // Read in the scene data, and load the necessary resources
 scene_data *loadScene(const std::string &fileName)
 {
@@ -272,36 +317,37 @@ scene_data *loadScene(const std::string &fileName)
 	struct json_value_s* root = json_parse(str.c_str(), strlen(str.c_str()));
 	assert(root->type == json_type_object);
 
-	// ifstream inFile;
-    
-    // inFile.open(fileName);
-	//  if (!inFile) {
-    //     cout << "Unable to open file";
-    //     exit(1); // terminate with error
-    // }
+	struct json_object_s* object = (struct json_object_s*)root->payload;
+	std::cout << "object->length : " << object->length << std::endl; 
+	// assert(object->length == 2);	
 
-	// inFile.seekg(0, std::ios::end);    // go to the end
-	// int length = inFile.tellg();           // report location (this is the length)
-	// inFile.seekg(0, std::ios::beg);    // go back to the beginning
-	// char* buffer = new char[length+1];    // allocate memory for a buffer of appropriate dimension
-	// inFile.read(buffer, length);       // read the whole file into the buffer
-	// inFile.close();                    // close file handle
-	// buffer[length] = '\0';
-	// std::cout << buffer << std::endl;
+	struct json_object_element_s* a = object->start;
 
-	// struct json_value_s* root = json_parse(buffer, strlen(json));
-	// assert(root->type == json_type_object);
+	struct json_object_s* b = getChildByName(object->start, "geometry");
+	// struct json_object_s* sub_b = (struct json_object_s*)b->value->payload;
+
+	std::cout << "b->length : " << b->length << std::endl;
+	std::cout << "b->start->name : " << b->start->name->string << std::endl;
+	std::cout << "b->value->payload : " << b->start->value->payload << std::endl;
+	// std::cout << "sub_b->length : " << sub_b->length << std::endl;
+	// do{
+	// 	struct json_string_s* a_name = a->name;
+	// 	std::cout << "a_name->string : " << a_name->string << std::endl;
+	// 	a = a->next;
+	// }while(a != nullptr);
+
 
 	scene_data *scene = new scene_data;
 	boost::property_tree::ptree pt;
 	boost::property_tree::read_json(fileName, pt);
 
 	readTextures(scene, pt.get_child("textures"));
-	readGeometry(scene, pt.get_child("geometry"));
+	readGeometry(scene, pt.get_child("geometry"), getChildByName(object->start, "geometry"));
 	readMaterials(scene, pt.get_child("materials"));
 	readObjects(scene, pt.get_child("objects"));
 	readLighting(scene, pt.get_child("lighting"));
 	readDynamicLights(scene, pt.get_child("dynamic_lighting"));
 
+	free(root);
 	return scene;
 }

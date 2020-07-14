@@ -1,6 +1,8 @@
 #include "texture.h"
 #include "util.h"
 #include "stb_image.h"
+
+#include <memory>
 // #include <IL\il.h>
 
   static auto stbi_load_smart = [](auto... args) {
