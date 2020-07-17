@@ -3,17 +3,17 @@
 #include "util.h"
 
 #include <boost\property_tree\json_parser.hpp>
+#include <cstdlib>
 #include <sstream>
+
+// TODO: I made a mess of this, clean it up.
 
 json_object_s *getChildByName(json_object_element_s *root, std::string name) {
   struct json_object_element_s *a = root;
 
   do {
     struct json_string_s *a_name = a->name;
-    // std::cout << "a_name->string : " << a_name->string << " vs " << name <<
-    // std::endl;
     if (a_name->string == name) {
-      // std::cout << "a_name->string : " << a_name->string << std::endl;
       return (struct json_object_s *)a->value->payload;
     }
     a = a->next;
@@ -33,6 +33,40 @@ json_object_element_s *getElementByName(json_object_element_s *root,
     a = a->next;
   } while (a != nullptr);
   return nullptr;
+}
+
+json_value_s *getValueByName(json_object_element_s *root, std::string name) {
+  struct json_object_element_s *a = root;
+
+  do {
+    struct json_string_s *a_name = a->name;
+    if (a_name->string == name) {
+      return a->value;
+    }
+    a = a->next;
+  } while (a != nullptr);
+  return nullptr;
+}
+
+// TODO: Float might actually not preserve decimal points, verify this.
+template <typename T>
+T getNumberByName(json_object_element_s *root, std::string name) {
+  struct json_object_element_s *a = root;
+
+  do {
+    struct json_string_s *a_name = a->name;
+    if (a_name->string == name) {
+      if (std::is_same<T, int>::value) {
+        return atoi(json_value_as_number(a->value)->number);
+      } else if (std::is_same<T, float>::value) {
+        return atof(json_value_as_number(a->value)->number);
+      } else {
+        return 0;
+      }
+    }
+    a = a->next;
+  } while (a != nullptr);
+  return 0;
 }
 
 // Takes a branch of a property tree and reads in a vec3
@@ -63,17 +97,17 @@ void readGeometry(scene_data *scene, const boost::property_tree::ptree &pt,
   // For Each branch of the tree
   do {
     struct json_string_s *a_name = a_node->name;
+    std::string name = a_name->string;
     struct json_object_s *object =
         (struct json_object_s *)a_node->value->payload;
     json_object_element_s *shape_node =
         getElementByName(object->start, "shape");
     if (shape_node != nullptr) {
-      // json_object_element_s* b_node = shape->start;
-      // struct json_string_s* shape_name =
-      // (json_string_s*)shape->value->payload;
-      std::string shape = ((json_string_s *)shape_node->value->payload)->string;
-      std::cout << "shape name: " << shape << std::endl;
-
+      std::string shape =
+          ((json_string_s *)getValueByName(object->start, "shape")->payload)
+              ->string;
+      if (std::is_same<int, int>::value) {
+      }
       geometry *geom;
 
       // TODO: Convert types to use integral consts rather than strings
@@ -86,59 +120,41 @@ void readGeometry(scene_data *scene, const boost::property_tree::ptree &pt,
       else if (shape == "pyramid")
         geom = createPyramid();
       else if (shape == "disk") {
-        // int slices = iter->second.get_child("slices").get_value<int>();
-        // geom = createDisk(slices);
+        int slices = getNumberByName<int>(object->start, "slices");
+        geom = createDisk(slices);
       } else if (shape == "cylinder") {
-        struct json_number_s *num = json_value_as_number(
-            getElementByName(object->start, "slices")->value);
-        std::cout << num->number << std::endl;
-        int slices;
-        std::stringstream s(num->number);
-        s >> slices;
-
-        struct json_number_s *num2 = json_value_as_number(
-            getElementByName(object->start, "stacks")->value);
-        std::cout << num2->number << std::endl;
-        int stacks;
-        std::stringstream s2(num2->number);
-        s2 >> stacks;
-        // std::cout << "num : " << (num->int) << std::endl;
-        // int slice = json_value_as_number(
-        //                 getElementByName(object->start, "slices")->value)
-        //                 ->int;
-        // int stacks = json_value_as_number(
-        //                  getElementByName(object->start, "stacks")->value)
-        //                  ->int;
-        // geom = createCylinder(stacks, slices);
-        // int slices = iter->second.get_child("slices").get_value<int>();
-        // int stacks = iter->second.get_child("stacks").get_value<int>();
-        // geom = createCylinder(stacks, slices);
+        int slices = getNumberByName<int>(object->start, "slices");
+        int stacks = getNumberByName<int>(object->start, "stacks");
+        geom = createCylinder(stacks, slices);
       } else if (shape == "sphere") {
-        // int slices = iter->second.get_child("slices").get_value<int>();
-        // int stacks = iter->second.get_child("stacks").get_value<int>();
-        // geom = createSphere(stacks, slices);
+        int slices = getNumberByName<int>(object->start, "slices");
+        int stacks = getNumberByName<int>(object->start, "stacks");
+        geom = createSphere(stacks, slices);
       } else if (shape == "torus") {
-        // float radius = iter->second.get_child("radius").get_value<float>();
-        // int slices = iter->second.get_child("slices").get_value<int>();
-        // int stacks = iter->second.get_child("stacks").get_value<int>();
-        // geom = createTorus(radius, stacks, slices);
+        int radius = getNumberByName<float>(object->start, "radius");
+        int slices = getNumberByName<int>(object->start, "slices");
+        int stacks = getNumberByName<int>(object->start, "stacks");
+        std::cout << "radius : " << radius << std::endl;
+        geom = createTorus(radius, stacks, slices);
       } else if (shape == "plane") {
-        // int width = iter->second.get_child("width").get_value<int>();
-        // int depth = iter->second.get_child("depth").get_value<int>();
-        // geom = createPlane(width, depth);
+        int width = getNumberByName<int>(object->start, "width");
+        int depth = getNumberByName<int>(object->start, "depth");
+        geom = createPlane(width, depth);
       } else if (shape == "sierpinski") {
-        // int divisions = iter->second.get_child("divisions").get_value<int>();
-        // geom = createSierpinski(divisions);
+        int divisions = getNumberByName<int>(object->start, "divisions");
+        geom = createSierpinski(divisions);
       } else if (shape == "terrain") {
-        // std::string heightmap =
-        //     iter->second.get_child("heightmap").get_value<std::string>();
-        // geom = createTerrain(scene->textures[heightmap]);
+        std::string heightmap =
+            ((json_string_s *)getValueByName(object->start, "heightmap")
+                 ->payload)
+                ->string;
+        geom = createTerrain(scene->textures[heightmap]);
       } else {
         std::cerr << "Error - Geometry type not recognised: " // << name
                   << std::endl;
         exit(EXIT_FAILURE);
       }
-      //   scene->geometry[name] = geom;
+      scene->geometry[name] = geom;
     }
 
     a_node = a_node->next;
@@ -195,7 +211,7 @@ void readGeometry(scene_data *scene, const boost::property_tree::ptree &pt,
                 << std::endl;
       exit(EXIT_FAILURE);
     }
-    scene->geometry[name] = geom;
+    // scene->geometry[name] = geom;
   }
 }
 
