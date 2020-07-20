@@ -35,6 +35,19 @@ json_object_element_s *getElementByName(json_object_element_s *root,
   return nullptr;
 }
 
+json_array_s *getArrayByName(json_object_element_s *root, std::string name) {
+  struct json_object_element_s *a = root;
+
+  do {
+    struct json_string_s *a_name = a->name;
+    if (a_name->string == name) {
+      return (json_array_s *)a->value->payload;
+    }
+    a = a->next;
+  } while (a != nullptr);
+  return nullptr;
+}
+
 json_value_s *getValueByName(json_object_element_s *root, std::string name) {
   struct json_object_element_s *a = root;
 
@@ -90,9 +103,24 @@ glm::vec4 readVec4(const boost::property_tree::ptree &pt) {
   return v;
 }
 
+// Converts a json_array_s to a vec4
+glm::vec4 readVec4(json_array_s *array) {
+
+  struct json_array_element_s *element_x = array->start;
+  struct json_array_element_s *element_y = element_x->next;
+  struct json_array_element_s *element_z = element_y->next;
+  struct json_array_element_s *element_w = element_z->next;
+
+  glm::vec4 v;
+  v.x = atof(json_value_as_number(element_x->value)->number);
+  v.y = atof(json_value_as_number(element_y->value)->number);
+  v.z = atof(json_value_as_number(element_z->value)->number);
+  v.w = atof(json_value_as_number(element_w->value)->number);
+  return v;
+}
+
 // Reads in geometry from the property tree
-void readGeometry(scene_data *scene, const boost::property_tree::ptree &pt,
-                  json_object_s *node) {
+void readGeometry(scene_data *scene, json_object_s *node) {
   json_object_element_s *a_node = node->start;
   // For Each branch of the tree
   do {
@@ -159,72 +187,19 @@ void readGeometry(scene_data *scene, const boost::property_tree::ptree &pt,
 
     a_node = a_node->next;
   } while (a_node != nullptr);
-
-  // Iterate through all the sub branches of the tree
-  boost::property_tree::ptree::const_iterator iter = pt.begin();
-  for (; iter != pt.end(); ++iter) {
-    // Read in the name of the geometry
-    std::string name = iter->first;
-
-    // Read in the shape
-    std::string shape =
-        iter->second.get_child("shape").get_value<std::string>();
-    geometry *geom;
-
-    // Depending on the shape of the geometry, use the relevant geometry
-    // creation method
-    if (shape == "cube")
-      geom = createBox();
-    else if (shape == "tetrahedron")
-      geom = createTetrahedron();
-    else if (shape == "pyramid")
-      geom = createPyramid();
-    else if (shape == "disk") {
-      int slices = iter->second.get_child("slices").get_value<int>();
-      geom = createDisk(slices);
-    } else if (shape == "cylinder") {
-      int slices = iter->second.get_child("slices").get_value<int>();
-      int stacks = iter->second.get_child("stacks").get_value<int>();
-      geom = createCylinder(stacks, slices);
-    } else if (shape == "sphere") {
-      int slices = iter->second.get_child("slices").get_value<int>();
-      int stacks = iter->second.get_child("stacks").get_value<int>();
-      geom = createSphere(stacks, slices);
-    } else if (shape == "torus") {
-      float radius = iter->second.get_child("radius").get_value<float>();
-      int slices = iter->second.get_child("slices").get_value<int>();
-      int stacks = iter->second.get_child("stacks").get_value<int>();
-      geom = createTorus(radius, stacks, slices);
-    } else if (shape == "plane") {
-      int width = iter->second.get_child("width").get_value<int>();
-      int depth = iter->second.get_child("depth").get_value<int>();
-      geom = createPlane(width, depth);
-    } else if (shape == "sierpinski") {
-      int divisions = iter->second.get_child("divisions").get_value<int>();
-      geom = createSierpinski(divisions);
-    } else if (shape == "terrain") {
-      std::string heightmap =
-          iter->second.get_child("heightmap").get_value<std::string>();
-      geom = createTerrain(scene->textures[heightmap]);
-    } else {
-      std::cerr << "Error - Geometry type not recognised: " << name
-                << std::endl;
-      exit(EXIT_FAILURE);
-    }
-    // scene->geometry[name] = geom;
-  }
 }
 
 // Reads in textures from the scene file
-void readTextures(scene_data *scene, const boost::property_tree::ptree &pt) {
-  // Iterate through all the sub branches and read in the textures accordingly
-  boost::property_tree::ptree::const_iterator iter = pt.begin();
-  for (; iter != pt.end(); ++iter) {
-    // Get the name of the texture
-    std::string name = iter->first;
+void readTextures(scene_data *scene, json_object_s *node) {
 
-    // Get the filename
-    std::string filename = iter->second.get_value<std::string>();
+  json_object_element_s *a_node = node->start;
+  // For Each branch of the tree
+  do {
+    struct json_string_s *a_name = a_node->name;
+    std::string name = a_name->string;
+    struct json_string_s *file_name =
+        (struct json_string_s *)a_node->value->payload;
+    std::string filename = file_name->string;
 
     // Create the texture from the filename
     texture *tex = new texture("assets/images/" + filename);
@@ -232,36 +207,80 @@ void readTextures(scene_data *scene, const boost::property_tree::ptree &pt) {
       printf("Error loading texture: %s\n", filename.c_str());
     else
       scene->textures[name] = tex;
-  }
+
+    a_node = a_node->next;
+  } while (a_node != nullptr);
 }
 
 // Read in material data from the scene file
-void readMaterials(scene_data *scene, const boost::property_tree::ptree &pt) {
-  boost::property_tree::ptree::const_iterator iter = pt.begin();
-  // Iterate through all the sub branches, and read in the relevant data
-  for (; iter != pt.end(); ++iter) {
+void readMaterials(scene_data *scene, const boost::property_tree::ptree &pt,
+                   json_object_s *node) {
+  json_object_element_s *a_node = node->start;
+  do {
+    struct json_string_s *a_name = a_node->name;
+    std::string name = a_name->string;
+    // std::cout << "name : " << name << std::endl;
+    struct json_object_s *object =
+        (struct json_object_s *)a_node->value->payload;
+    json_array_s *emissive = getArrayByName(object->start, "emmisive");
+    json_array_s *ambient = getArrayByName(object->start, "ambient");
+    json_array_s *diffuse = getArrayByName(object->start, "diffuse");
+    json_array_s *specular = getArrayByName(object->start, "specular");
+
     material *mat = new material();
-    std::string name = iter->first;
-    mat->data.emissive = readVec4(iter->second.get_child("emmisive"));
-    mat->data.ambient = readVec4(iter->second.get_child("ambient"));
-    mat->data.diffuse = readVec4(iter->second.get_child("diffuse"));
-    mat->data.specular = readVec4(iter->second.get_child("specular"));
-    mat->data.shininess =
-        iter->second.get_child("shininess").get_value<float>();
+
+    mat->data.emissive = readVec4(emissive);
+    mat->data.ambient = readVec4(ambient);
+    mat->data.diffuse = readVec4(diffuse);
+    mat->data.specular = readVec4(specular);
+
+    mat->data.shininess = getNumberByName<float>(object->start, "shininess");
+
     std::string texture =
-        iter->second.get_child("texture").get_value<std::string>();
+        ((json_string_s *)getValueByName(object->start, "texture")->payload)
+            ->string;
 
     // Try and find texture, and set material accordingly.  If the not found,
     // set to nullptr
-    if (scene->textures.find(texture) != scene->textures.end())
+    if (scene->textures.find(texture) != scene->textures.end()) {
       mat->texture = scene->textures[texture];
-    else
+    } else {
       mat->texture = nullptr;
+    }
 
     // Create the material, and add to the table
     mat->create();
     scene->material[name] = mat;
-  }
+
+    a_node = a_node->next;
+  } while (a_node != nullptr);
+
+  //   boost::property_tree::ptree::const_iterator iter = pt.begin();
+  //   // Iterate through all the sub branches, and read in the relevant data
+  //   for (; iter != pt.end(); ++iter) {
+  //     material *mat = new material();
+  //     std::string name = iter->first;
+  //     mat->data.emissive = readVec4(iter->second.get_child("emmisive"));
+  //     mat->data.ambient = readVec4(iter->second.get_child("ambient"));
+  //     mat->data.diffuse = readVec4(iter->second.get_child("diffuse"));
+  //     mat->data.specular = readVec4(iter->second.get_child("specular"));
+  //     mat->data.shininess =
+  //         iter->second.get_child("shininess").get_value<float>();
+  //     std::string texture =
+  //         iter->second.get_child("texture").get_value<std::string>();
+
+  //     // Try and find texture, and set material accordingly.  If the not
+  //     found,
+  //     // set to nullptr
+  //     if (scene->textures.find(texture) != scene->textures.end())
+  //       mat->texture = scene->textures[texture];
+  //     else
+  //       mat->texture = nullptr;
+
+  //     // Create the material, and add to the table
+  //     mat->create();
+  //     scene->material[name] = mat;
+  //   }
 }
 
 // Reads in a transform from the scene file
@@ -364,8 +383,6 @@ using namespace std;
 
 // Read in the scene data, and load the necessary resources
 scene_data *loadScene(const std::string &fileName) {
-  std::cout << "Hello : " << fileName << std::endl;
-
   std::ifstream t(fileName);
   std::string str;
 
@@ -376,38 +393,32 @@ scene_data *loadScene(const std::string &fileName) {
   str.assign((std::istreambuf_iterator<char>(t)),
              std::istreambuf_iterator<char>());
 
-  std::cout << str << std::endl;
-
   struct json_value_s *root = json_parse(str.c_str(), strlen(str.c_str()));
   assert(root->type == json_type_object);
 
   struct json_object_s *object = (struct json_object_s *)root->payload;
-  std::cout << "object->length : " << object->length << std::endl;
-  // assert(object->length == 2);
 
   struct json_object_element_s *a = object->start;
 
-  struct json_object_s *b = getChildByName(object->start, "geometry");
-  // struct json_object_s* sub_b = (struct json_object_s*)b->value->payload;
-
-  std::cout << "b->length : " << b->length << std::endl;
-  std::cout << "b->start->name : " << b->start->name->string << std::endl;
-  std::cout << "b->value->payload : " << b->start->value->payload << std::endl;
-  // std::cout << "sub_b->length : " << sub_b->length << std::endl;
-  // do{
-  // 	struct json_string_s* a_name = a->name;
-  // 	std::cout << "a_name->string : " << a_name->string << std::endl;
-  // 	a = a->next;
-  // }while(a != nullptr);
+  struct json_object_s *textures_node =
+      getChildByName(object->start, "textures");
+  struct json_object_s *geometry_node =
+      getChildByName(object->start, "geometry");
+  struct json_object_s *materials_node =
+      getChildByName(object->start, "materials");
+  struct json_object_s *objects_node = getChildByName(object->start, "objects");
+  struct json_object_s *lighting_node =
+      getChildByName(object->start, "lighting");
+  struct json_object_s *dynamic_lighting_node =
+      getChildByName(object->start, "dynamic_lighting");
 
   scene_data *scene = new scene_data;
   boost::property_tree::ptree pt;
   boost::property_tree::read_json(fileName, pt);
 
-  readTextures(scene, pt.get_child("textures"));
-  readGeometry(scene, pt.get_child("geometry"),
-               getChildByName(object->start, "geometry"));
-  readMaterials(scene, pt.get_child("materials"));
+  readTextures(scene, textures_node);
+  readGeometry(scene, geometry_node);
+  readMaterials(scene, pt.get_child("materials"), materials_node);
   readObjects(scene, pt.get_child("objects"));
   readLighting(scene, pt.get_child("lighting"));
   readDynamicLights(scene, pt.get_child("dynamic_lighting"));
