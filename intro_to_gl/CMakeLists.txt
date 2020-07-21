@@ -96,7 +96,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/
 "${CMAKE_CURRENT_SOURCE_DIR}/set08116_framework/lib/"
 # "${CMAKE_CURRENT_SOURCE_DIR}/set08116_framework/lib/glm/"
 "${CMAKE_CURRENT_SOURCE_DIR}/../Libraries/glm-0.9.3.4"
-"${CMAKE_CURRENT_SOURCE_DIR}/../Libraries/boost_1_51"
 )
 
 #dependencies
