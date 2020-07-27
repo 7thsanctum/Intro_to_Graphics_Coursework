@@ -23,7 +23,9 @@ SET (CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 
 #### Add External Dependencies ####
 #enu_graphics_framework
-add_subdirectory("set08116_framework")
+#add_subdirectory("set08116_framework")
+
+add_subdirectory("framework")
 
 #Glew is dumb and won't listen to our build directories, so manually set it.
 set_target_properties(libglew_shared PROPERTIES
@@ -46,21 +48,18 @@ add_executable(${PROJECT_NAME}
 "${CMAKE_CURRENT_SOURCE_DIR}/source/cubemap.cpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/source/camera.cpp")
 
-# TODO: Remove Boost dependency, this is currently required for JSON parsing.
 # TODO: Upgrade GLM to a newer version.
 target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include"
-"${CMAKE_CURRENT_SOURCE_DIR}/set08116_framework/lib/glfw/include"
-"${CMAKE_CURRENT_SOURCE_DIR}/set08116_framework/lib/glew/include"
-"${CMAKE_CURRENT_SOURCE_DIR}/set08116_framework/lib/"
+"${CMAKE_CURRENT_SOURCE_DIR}/framework/lib/glfw/include"
+"${CMAKE_CURRENT_SOURCE_DIR}/framework/lib/glew/include"
+"${CMAKE_CURRENT_SOURCE_DIR}/framework/lib/"
 # "${CMAKE_CURRENT_SOURCE_DIR}/set08116_framework/lib/glm/"
 "${CMAKE_CURRENT_SOURCE_DIR}/../Libraries/glm-0.9.3.4"
 )
 
 #dependencies
-target_link_libraries(${PROJECT_NAME} PRIVATE enu_graphics_framework)
+target_link_libraries(${PROJECT_NAME} PRIVATE framework)
 
 #copy General resources to build post build script
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD  
 COMMAND ${CMAKE_COMMAND} -E copy_directory  "${PROJECT_SOURCE_DIR}/assets" "$<TARGET_FILE_DIR:${PROJECT_NAME}>/assets")
-
-set_target_properties(enu_graphics_framework PROPERTIES FOLDER "DEPS")

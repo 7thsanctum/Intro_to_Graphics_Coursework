@@ -1,3 +1,9 @@
-[submodule "intro_to_gl/set08116_framework"]
-	path = intro_to_gl/set08116_framework
-	url = git@github.com:7thsanctum/set08116_framework.git
+[submodule "intro_to_gl/framework/lib/glfw"]
+	path = intro_to_gl/framework/lib/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "intro_to_gl/framework/lib/glew"]
+	path = intro_to_gl/framework/lib/glew
+	url = https://github.com/Perlmint/glew-cmake.git
+[submodule "intro_to_gl/framework/lib/glm"]
+	path = intro_to_gl/framework/lib/glm
+	url = https://github.com/g-truc/glm.git
